@@ -6,15 +6,34 @@ class AvtkTest {open
 } {
   Function {AvtkTest()} {open
   } {
-    Fl_Window {} {open selected
-      xywh {199 213 495 415} type Double visible
+    Fl_Window {} {
+      label {Avtk Showcase} open
+      xywh {133 384 495 415} type Double visible
     } {
-      Fl_Box button {
+      Fl_Box highButtn {
         label label
-        xywh {75 247 100 63}
+        xywh {10 49 100 31}
         code0 {\#include "avtk_button.h"}
         class AvtkButton
       }
+      Fl_Box lowButtn {
+        label label
+        xywh {10 13 100 31}
+        code0 {\#include "avtk_button.h"}
+        class AvtkButton
+      }
+      Fl_Dial dial_high {
+        xywh {120 10 35 30}
+        code0 {\#include "avtk_dial.h"}
+        class AvtkDial
+      }
+      Fl_Dial dial_low {
+        label testing selected
+        xywh {120 50 35 30}
+        code0 {\#include "avtk_dial.h"}
+        class AvtkDial
+      }
     }
+    code {w->show();} {}
   }
 } 

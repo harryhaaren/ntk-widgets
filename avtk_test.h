@@ -5,10 +5,14 @@
 #include <FL/Fl.H>
 #include <FL/Fl_Double_Window.H>
 #include "avtk_button.h"
+#include "avtk_dial.h"
 
 class AvtkTest {
 public:
   AvtkTest();
-  AvtkButton *button;
+  AvtkButton *highButtn;
+  AvtkButton *lowButtn;
+  AvtkDial *dial_high;
+  AvtkDial *dial_low;
 };
 #endif

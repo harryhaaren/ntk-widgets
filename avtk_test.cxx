@@ -4,20 +4,53 @@
 
 AvtkTest::AvtkTest() {
   Fl_Double_Window* w;
-  { Fl_Double_Window* o = new Fl_Double_Window(495, 415);
+  { Fl_Double_Window* o = new Fl_Double_Window(495, 415, "Avtk Showcase");
     w = o;
     o->user_data((void*)(this));
-    { button = new AvtkButton(75, 247, 100, 63, "label");
-      button->box(FL_NO_BOX);
-      button->color(FL_BACKGROUND_COLOR);
-      button->selection_color(FL_BACKGROUND_COLOR);
-      button->labeltype(FL_NORMAL_LABEL);
-      button->labelfont(0);
-      button->labelsize(14);
-      button->labelcolor(FL_FOREGROUND_COLOR);
-      button->align(Fl_Align(FL_ALIGN_CENTER));
-      button->when(FL_WHEN_RELEASE);
-    } // AvtkButton* button
+    { highButtn = new AvtkButton(10, 49, 100, 31, "label");
+      highButtn->box(FL_NO_BOX);
+      highButtn->color(FL_BACKGROUND_COLOR);
+      highButtn->selection_color(FL_BACKGROUND_COLOR);
+      highButtn->labeltype(FL_NORMAL_LABEL);
+      highButtn->labelfont(0);
+      highButtn->labelsize(14);
+      highButtn->labelcolor(FL_FOREGROUND_COLOR);
+      highButtn->align(Fl_Align(FL_ALIGN_CENTER));
+      highButtn->when(FL_WHEN_RELEASE);
+    } // AvtkButton* highButtn
+    { lowButtn = new AvtkButton(10, 13, 100, 31, "label");
+      lowButtn->box(FL_NO_BOX);
+      lowButtn->color(FL_BACKGROUND_COLOR);
+      lowButtn->selection_color(FL_BACKGROUND_COLOR);
+      lowButtn->labeltype(FL_NORMAL_LABEL);
+      lowButtn->labelfont(0);
+      lowButtn->labelsize(14);
+      lowButtn->labelcolor(FL_FOREGROUND_COLOR);
+      lowButtn->align(Fl_Align(FL_ALIGN_CENTER));
+      lowButtn->when(FL_WHEN_RELEASE);
+    } // AvtkButton* lowButtn
+    { dial_high = new AvtkDial(120, 10, 35, 30);
+      dial_high->box(FL_OVAL_BOX);
+      dial_high->color(FL_BACKGROUND_COLOR);
+      dial_high->selection_color(FL_INACTIVE_COLOR);
+      dial_high->labeltype(FL_NORMAL_LABEL);
+      dial_high->labelfont(0);
+      dial_high->labelsize(14);
+      dial_high->labelcolor(FL_FOREGROUND_COLOR);
+      dial_high->align(Fl_Align(FL_ALIGN_BOTTOM));
+      dial_high->when(FL_WHEN_CHANGED);
+    } // AvtkDial* dial_high
+    { dial_low = new AvtkDial(120, 50, 35, 30, "testing");
+      dial_low->box(FL_OVAL_BOX);
+      dial_low->color(FL_BACKGROUND_COLOR);
+      dial_low->selection_color(FL_INACTIVE_COLOR);
+      dial_low->labeltype(FL_NORMAL_LABEL);
+      dial_low->labelfont(0);
+      dial_low->labelsize(14);
+      dial_low->labelcolor(FL_FOREGROUND_COLOR);
+      dial_low->align(Fl_Align(FL_ALIGN_BOTTOM));
+      dial_low->when(FL_WHEN_CHANGED);
+    } // AvtkDial* dial_low
     o->end();
   } // Fl_Double_Window* o
   w->show();

@@ -8,7 +8,7 @@ class AvtkTest {open
   } {
     Fl_Window {} {
       label {Avtk Showcase} open
-      xywh {553 277 495 415} type Double
+      xywh {512 293 495 415} type Double
       code0 {\#include "avtk_helpers.h"} visible
     } {
       Fl_Box bg_left {
@@ -23,15 +23,15 @@ class AvtkTest {open
         code0 {\#include "avtk_background.h"}
         class AvtkBackground
       }
-      Fl_Box bg_right {
-        label background
-        xywh {325 12 135 178}
-        code0 {\#include "avtk_background.h"}
-        class AvtkBackground
+      Fl_Box image {
+        label {/home/image.png} selected
+        xywh {200 262 195 128} labeltype EMBOSSED_LABEL
+        code0 {\#include "avtk_image.h"}
+        class AvtkImage
       }
       Fl_Box bg_r_low {
-        label background selected
-        xywh {325 202 135 178}
+        label background
+        xywh {320 47 135 178}
         code0 {\#include "avtk_background.h"}
         class AvtkBackground
       }
@@ -71,7 +71,7 @@ class AvtkTest {open
       }
       Fl_Dial openGL {
         label openGL
-        xywh {175 190 120 90} labeltype NO_LABEL
+        xywh {175 190 75 85} labeltype NO_LABEL
         code0 {\#include "avtk_opengl.h"}
         class AvtkOpenGL
       }

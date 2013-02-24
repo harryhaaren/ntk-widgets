@@ -16,6 +16,7 @@ class AvtkButton : public Fl_Button
       
       highlight = false;
     }
+    
     bool highlight;
     int x, y, w, h;
     const char* label;
@@ -28,6 +29,10 @@ class AvtkButton : public Fl_Button
         
         cairo_save( cr );
         
+        cairo_rectangle( cr, x+1, y+1, w-2, h-2 );
+        cairo_set_source_rgb( cr,28 / 255.f,  28 / 255.f ,  28 / 255.f  );
+        cairo_fill_preserve(cr);
+        
         cairo_set_line_width(cr, 1.5);
         cairo_rectangle( cr, x+1, y+1, w-2, h-2 );
         
@@ -36,6 +41,7 @@ class AvtkButton : public Fl_Button
           cairo_set_source_rgba(cr, 1.0, 0.48,   0, 0.4);
           cairo_fill_preserve(cr);
         }
+        
         cairo_set_source_rgba(cr, 1.0, 0.48,   0, 0.8);
         cairo_stroke(cr);
         

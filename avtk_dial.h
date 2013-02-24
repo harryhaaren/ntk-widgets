@@ -4,7 +4,7 @@
 class AvtkDial : public Fl_Dial
 {
   public:
-    AvtkDial(int _x, int _y, int _w, int _h, const char* _label):
+    AvtkDial(int _x, int _y, int _w, int _h, const char* _label=0):
         Fl_Dial(_x, _y, _w, _h, _label)
     {
       x = _x;
@@ -14,17 +14,6 @@ class AvtkDial : public Fl_Dial
       
       highlight = false;
       label = _label;
-    }
-    AvtkDial(int _x, int _y, int _w, int _h):
-        Fl_Dial(_x, _y, _w, _h, "")
-    {
-      x = _x;
-      y = _y;
-      w = _w;
-      h = _h;
-      
-      highlight = false;
-      label = "";
     }
     
     

@@ -47,7 +47,7 @@ class AvtkBackground : public Fl_Widget
         cairo_set_line_width( cr, 1.0);
         
         // loop over each 2nd line, drawing dots
-        for ( int i = x; i < x + h; i += 4 )
+        for ( int i = x; i < x + w; i += 4 )
         {
           cairo_move_to( cr, i, y );
           cairo_line_to( cr, i, y + h );

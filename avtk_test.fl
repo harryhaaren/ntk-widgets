@@ -1,5 +1,4 @@
 # data file for the Fltk User Interface Designer (fluid)
-version 1.0302 
 header_name {.h} 
 code_name {.cxx}
 class AvtkTest {open
@@ -8,34 +7,58 @@ class AvtkTest {open
   } {
     Fl_Window {} {
       label {Avtk Showcase} open
-      xywh {202 465 495 415} type Double visible
+      xywh {503 413 495 415} type Double
+      code0 {\#include "avtk_helpers.h"} visible
     } {
-      Fl_Box bg {
+      Fl_Box bg_left {
         label background
-        xywh {200 12 135 178}
+        xywh {10 12 135 178}
         code0 {\#include "avtk_background.h"}
         class AvtkBackground
       }
-      Fl_Box highButtn {
-        label label selected
-        xywh {10 49 100 31}
+      Fl_Box bg_mid {
+        label background
+        xywh {160 12 135 178}
+        code0 {\#include "avtk_background.h"}
+        class AvtkBackground
+      }
+      Fl_Box bg_right {
+        label background
+        xywh {325 12 135 178}
+        code0 {\#include "avtk_background.h"}
+        class AvtkBackground
+      }
+      Fl_Box bg_r_low {
+        label background selected
+        xywh {325 202 135 178}
+        code0 {\#include "avtk_background.h"}
+        class AvtkBackground
+      }
+      Fl_Box lowButtn {
+        label lowButton
+        callback {cout << o->label << endl;}
+        xywh {30 99 100 31}
         code0 {\#include "avtk_button.h"}
         class AvtkButton
       }
-      Fl_Box lowButtn {
-        label label
-        xywh {10 13 100 31}
+      Fl_Box highButtn {
+        label highButton
+        callback {cout << o->label << endl;}
+        xywh {30 63 100 31}
         code0 {\#include "avtk_button.h"}
         class AvtkButton
       }
       Fl_Dial dial_high {
-        xywh {120 10 35 30}
+        label highDial
+        callback {cout << o->label << " " << v << endl;}
+        xywh {70 230 35 30} labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }
       Fl_Dial dial_low {
         label testing
-        xywh {255 85 35 30}
+        callback {cout << o->label << " " << v << endl;}
+        xywh {210 90 35 30} labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }

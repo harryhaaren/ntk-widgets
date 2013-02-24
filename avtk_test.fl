@@ -8,10 +8,16 @@ class AvtkTest {open
   } {
     Fl_Window {} {
       label {Avtk Showcase} open
-      xywh {133 384 495 415} type Double visible
+      xywh {202 465 495 415} type Double visible
     } {
+      Fl_Box bg {
+        label background
+        xywh {200 12 135 178}
+        code0 {\#include "avtk_background.h"}
+        class AvtkBackground
+      }
       Fl_Box highButtn {
-        label label
+        label label selected
         xywh {10 49 100 31}
         code0 {\#include "avtk_button.h"}
         class AvtkButton
@@ -28,8 +34,8 @@ class AvtkTest {open
         class AvtkDial
       }
       Fl_Dial dial_low {
-        label testing selected
-        xywh {120 50 35 30}
+        label testing
+        xywh {255 85 35 30}
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }

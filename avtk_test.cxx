@@ -7,6 +7,17 @@ AvtkTest::AvtkTest() {
   { Fl_Double_Window* o = new Fl_Double_Window(495, 415, "Avtk Showcase");
     w = o;
     o->user_data((void*)(this));
+    { bg = new AvtkBackground(200, 12, 135, 178, "background");
+      bg->box(FL_NO_BOX);
+      bg->color(FL_BACKGROUND_COLOR);
+      bg->selection_color(FL_BACKGROUND_COLOR);
+      bg->labeltype(FL_NORMAL_LABEL);
+      bg->labelfont(0);
+      bg->labelsize(14);
+      bg->labelcolor(FL_FOREGROUND_COLOR);
+      bg->align(Fl_Align(FL_ALIGN_CENTER));
+      bg->when(FL_WHEN_RELEASE);
+    } // AvtkBackground* bg
     { highButtn = new AvtkButton(10, 49, 100, 31, "label");
       highButtn->box(FL_NO_BOX);
       highButtn->color(FL_BACKGROUND_COLOR);
@@ -40,7 +51,7 @@ AvtkTest::AvtkTest() {
       dial_high->align(Fl_Align(FL_ALIGN_BOTTOM));
       dial_high->when(FL_WHEN_CHANGED);
     } // AvtkDial* dial_high
-    { dial_low = new AvtkDial(120, 50, 35, 30, "testing");
+    { dial_low = new AvtkDial(255, 85, 35, 30, "testing");
       dial_low->box(FL_OVAL_BOX);
       dial_low->color(FL_BACKGROUND_COLOR);
       dial_low->selection_color(FL_INACTIVE_COLOR);

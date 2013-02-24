@@ -4,12 +4,14 @@
 #define avtk_test_h
 #include <FL/Fl.H>
 #include <FL/Fl_Double_Window.H>
+#include "avtk_background.h"
 #include "avtk_button.h"
 #include "avtk_dial.h"
 
 class AvtkTest {
 public:
   AvtkTest();
+  AvtkBackground *bg;
   AvtkButton *highButtn;
   AvtkButton *lowButtn;
   AvtkDial *dial_high;

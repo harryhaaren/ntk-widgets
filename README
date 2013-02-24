@@ -1,0 +1,14 @@
+
+    AVTK: Audio Visual TooKit
+
+This "toolkit" is actually a set of widgets for use with NTK,
+the Non-Tool-Kit (http://non.tuxfamily.org/wiki/NTK) which is
+in turn based on FLTK (http://www.fltk.org).
+
+The reason this set of widget has been created is to ease the
+creation of new audio visual interfaces. Sliders, buttons and
+audio / video specific widgets are provided, and accessible
+trough the fantastic Ntk-fluid program.
+
+Hope you enjoy the creation of your new interface!
+  -Harry van Haaren <harryhaaren@gmail.com>

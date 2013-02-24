@@ -1,5 +1,5 @@
 # data file for the Fltk User Interface Designer (fluid)
-version 1.0300 
+version 1.0302 
 header_name {.h} 
 code_name {.cxx}
 class AvtkTest {open
@@ -7,8 +7,8 @@ class AvtkTest {open
   Function {AvtkTest()} {open
   } {
     Fl_Window {} {
-      label {Avtk Showcase} open selected
-      xywh {532 330 495 415} type Double
+      label {Avtk Showcase} open
+      xywh {553 277 495 415} type Double
       code0 {\#include "avtk_helpers.h"} visible
     } {
       Fl_Box bg_left {
@@ -30,7 +30,7 @@ class AvtkTest {open
         class AvtkBackground
       }
       Fl_Box bg_r_low {
-        label background
+        label background selected
         xywh {325 202 135 178}
         code0 {\#include "avtk_background.h"}
         class AvtkBackground
@@ -68,6 +68,12 @@ class AvtkTest {open
         xywh {20 323 225 61}
         code0 {\#include "avtk_waveform.h"}
         class AvtkWaveform
+      }
+      Fl_Dial openGL {
+        label openGL
+        xywh {175 190 120 90} labeltype NO_LABEL
+        code0 {\#include "avtk_opengl.h"}
+        class AvtkOpenGL
       }
     }
     code {w->show();} {}

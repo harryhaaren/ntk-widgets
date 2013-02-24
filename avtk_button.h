@@ -15,8 +15,10 @@ class AvtkButton : public Fl_Button
       label = _label;
       
       highlight = false;
+      mouseOver = false;
     }
     
+    bool mouseOver;
     bool highlight;
     int x, y, w, h;
     const char* label;
@@ -42,7 +44,10 @@ class AvtkButton : public Fl_Button
           cairo_fill_preserve(cr);
         }
         
-        cairo_set_source_rgba(cr, 1.0, 0.48,   0, 0.8);
+        float alpha = 0.7;
+        if (mouseOver)
+          alpha = 1;
+        cairo_set_source_rgba(cr, 1.0, 0.48,   0, alpha);
         cairo_stroke(cr);
         
         cairo_restore( cr );
@@ -75,6 +80,14 @@ class AvtkButton : public Fl_Button
               redraw();
             }
           }
+          return 1;
+        case FL_ENTER:
+          mouseOver = true;
+          redraw();
+          return 1;
+        case FL_LEAVE:
+          mouseOver = false;
+          redraw();
           return 1;
         case FL_RELEASE:
           if (highlight) {

@@ -18,13 +18,13 @@ class AvtkTest {open
         class AvtkBackground
       }
       Fl_Box bg_mid {
-        label background
+        label background selected
         xywh {160 12 135 178}
         code0 {\#include "avtk_background.h"}
         class AvtkBackground
       }
       Fl_Box image {
-        label {/home/image.png} selected
+        label {/home/image.png}
         xywh {200 262 195 128} labeltype EMBOSSED_LABEL
         code0 {\#include "avtk_image.h"}
         class AvtkImage
@@ -52,14 +52,14 @@ class AvtkTest {open
       Fl_Dial dial_high {
         label highDial
         callback {cout << o->label << " " << v << endl;}
-        xywh {70 230 35 30} labeltype NO_LABEL
+        xywh {60 215 50 45} labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }
       Fl_Dial dial_low {
         label testing
         callback {cout << o->label << " " << v << endl;}
-        xywh {210 90 35 30} labeltype NO_LABEL
+        xywh {210 70 50 50} labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }

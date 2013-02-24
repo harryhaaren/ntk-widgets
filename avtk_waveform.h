@@ -7,6 +7,7 @@
 #include <string>
 #include <cairomm/context.h>
 #include <iostream>
+#include <stdlib.h>
 
 using namespace std;
 using namespace Cairo;
@@ -34,9 +35,11 @@ class AvtkWaveform : public Fl_Widget
       
       data = new std::vector<float>();
       
+      srand (time(NULL));
+      
       for (int i = 0; i < 700; i++)
       {
-        data->push_back( floatArray[i] );
+        data->push_back( rand() / float(RAND_MAX) );
       }
       
       newWaveform = true;

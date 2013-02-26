@@ -30,7 +30,6 @@ class AvtkImage : public Fl_Widget
       {
         cout << "creating image from label" << endl;
         imageSurf = cairo_image_surface_create_from_png( label );
-        redraw();
       }
     }
     
@@ -45,7 +44,7 @@ class AvtkImage : public Fl_Widget
       {
         cairo_t *cr = Fl::cairo_cc();
         
-        cairo_save(cr);
+        //cairo_save(cr);
         
         if ( imageSurf == 0 )
         {
@@ -68,10 +67,10 @@ class AvtkImage : public Fl_Widget
         
         // draw the image to the context
         cairo_set_source_surface(cr, imageSurf, x, y);
-        cairo_rectangle( cr, x, y, w, h );
+        //cairo_rectangle( cr, x, y, w, h );
         cairo_paint(cr);
         
-        cairo_restore(cr);
+        //cairo_restore(cr);
       }
     }
     

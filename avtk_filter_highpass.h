@@ -3,10 +3,10 @@
 #include <valarray>
 #include <string>
 
-class AvtkFilterLowpass : public Fl_Slider
+class AvtkFilterHighpass : public Fl_Slider
 {
   public:
-    AvtkFilterLowpass(int _x, int _y, int _w, int _h, const char *_label):
+    AvtkFilterHighpass(int _x, int _y, int _w, int _h, const char *_label):
         Fl_Slider(_x, _y, _w, _h, _label)
     {
       x = _x;
@@ -77,16 +77,16 @@ class AvtkFilterLowpass : public Fl_Slider
         
         
         // draw the cutoff line:
-          // move to bottom left, draw line to middle left
-          cairo_move_to( cr, x , y + h );
-          cairo_line_to( cr, x , y + (h*0.47));
-          
           float cutoff = value();
           
+          // move to bottom right, draw line to middle right
+          cairo_move_to( cr, x + w, y + h );
+          cairo_line_to( cr, x + w, y + (h*0.47));
+          
           // Curve
-          cairo_curve_to( cr, x + w * cutoff    , y+(h*0.5)  ,   // control point 1
-                              x + w * cutoff    , y+(h * 0.0),   // control point 2
-                              x + w * cutoff +10, y+ h       );  // end of curve 1
+          cairo_curve_to( cr, x + w - (w*cutoff)    , y+(h*0.5)  ,   // control point 1
+                              x + w - (w*cutoff)    , y+(h * 0.0),   // control point 2
+                              x + w - (w*cutoff) -10, y+ h      );   // end of curve 1
           
           
           if ( active )

@@ -7,13 +7,19 @@ class AvtkTest {open
   Function {AvtkTest()} {open
   } {
     Fl_Window {} {
-      label {Avtk Showcase} open
-      xywh {659 261 790 625} type Double
+      label {Avtk Showcase} open selected
+      xywh {553 58 790 625} type Double
       code0 {\#include "avtk_helpers.h"} visible
     } {
       Fl_Box bg_left {
         label Buttons
         xywh {15 235 135 170} box UP_BOX
+        code0 {\#include "avtk_background.h"}
+        class AvtkBackground
+      }
+      Fl_Box bg_filters {
+        label Filters
+        xywh {15 420 135 170} box UP_BOX
         code0 {\#include "avtk_background.h"}
         class AvtkBackground
       }
@@ -30,21 +36,24 @@ class AvtkTest {open
         class AvtkImage
       }
       Fl_Box bg_r_low {
-        label {Dials (3x6)} selected
+        label {Dials (3x6)}
         xywh {165 236 180 340} box UP_BOX
         code0 {\#include "avtk_background.h"}
         class AvtkBackground
       }
       Fl_Box highButtn {
-        label highButton
-        callback {cout << o->label << endl;}
+        label Activate
+        callback {cout << o->label << endl;
+hipFilter->set_active(true);
+lopFilter->set_active(true);}
         xywh {34 275 100 30} box UP_BOX
         code0 {\#include "avtk_button.h"}
         class AvtkButton
       }
       Fl_Box midButtn {
-        label midButton
-        callback {cout << o->label << endl;}
+        label Deactivate
+        callback {hipFilter->set_active(false);
+lopFilter->set_active(false);}
         xywh {34 315 100 30} box UP_BOX
         code0 {\#include "avtk_button.h"}
         class AvtkButton
@@ -58,7 +67,7 @@ class AvtkTest {open
       }
       Fl_Dial {} {
         label testing
-        callback {cout << o->label << " " << v << endl;} selected
+        callback {cout << o->label << " " << v << endl;}
         xywh {176 312 50 50} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
@@ -71,122 +80,146 @@ class AvtkTest {open
       }
       Fl_Dial {} {
         label testing
-        callback {cout << o->label << " " << v << endl;} selected
+        callback {cout << o->label << " " << v << endl;}
         xywh {280 312 50 50} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }
       Fl_Dial {} {
         label testing
-        callback {cout << o->label << " " << v << endl;} selected
+        callback {cout << o->label << " " << v << endl;}
         xywh {228 312 50 50} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }
       Fl_Dial dial_low2 {
         label testing
-        callback {cout << o->label << " " << v << endl;} selected
+        callback {cout << o->label << " " << v << endl;}
         xywh {176 364 50 50} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }
       Fl_Dial {} {
         label testing
-        callback {cout << o->label << " " << v << endl;} selected
+        callback {cout << o->label << " " << v << endl;}
         xywh {280 363 50 50} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }
       Fl_Dial dial_low3 {
         label testing
-        callback {cout << o->label << " " << v << endl;} selected
+        callback {cout << o->label << " " << v << endl;}
         xywh {228 364 50 50} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }
       Fl_Dial dial_low5 {
         label testing
-        callback {cout << o->label << " " << v << endl;} selected
+        callback {cout << o->label << " " << v << endl;}
         xywh {176 415 50 50} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }
       Fl_Dial {} {
         label testing
-        callback {cout << o->label << " " << v << endl;} selected
+        callback {cout << o->label << " " << v << endl;}
         xywh {280 415 50 50} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }
       Fl_Dial dial_low6 {
         label testing
-        callback {cout << o->label << " " << v << endl;} selected
+        callback {cout << o->label << " " << v << endl;}
         xywh {228 415 50 50} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }
       Fl_Dial dial_low1 {
         label testing
-        callback {cout << o->label << " " << v << endl;} selected
+        callback {cout << o->label << " " << v << endl;}
         xywh {176 467 50 50} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }
       Fl_Dial {} {
         label testing
-        callback {cout << o->label << " " << v << endl;} selected
+        callback {cout << o->label << " " << v << endl;}
         xywh {280 467 50 50} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }
       Fl_Dial dial_low64 {
         label testing
-        callback {cout << o->label << " " << v << endl;} selected
+        callback {cout << o->label << " " << v << endl;}
         xywh {228 467 50 50} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }
       Fl_Dial dial_low53 {
         label testing
-        callback {cout << o->label << " " << v << endl;} selected
+        callback {cout << o->label << " " << v << endl;}
         xywh {176 519 50 50} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }
       Fl_Dial {} {
         label testing
-        callback {cout << o->label << " " << v << endl;} selected
+        callback {cout << o->label << " " << v << endl;}
         xywh {280 519 50 50} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }
       Fl_Dial dial_low61 {
         label testing
-        callback {cout << o->label << " " << v << endl;} selected
+        callback {cout << o->label << " " << v << endl;}
         xywh {228 519 50 50} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }
       Fl_Dial {} {
         label testing
-        callback {cout << o->label << " " << v << endl;} selected
+        callback {cout << o->label << " " << v << endl;
+lopFilter->value( o->value() );
+hipFilter->value( 1.f - o->value() );
+bigf->value( 1.f - o->value() );}
         xywh {176 260 50 50} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }
       Fl_Dial {} {
         label testing
-        callback {cout << o->label << " " << v << endl;} selected
+        callback {cout << o->label << " " << v << endl;}
         xywh {280 260 50 50} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }
       Fl_Dial {} {
         label testing
-        callback {cout << o->label << " " << v << endl;} selected
+        callback {cout << o->label << " " << v << endl;}
         xywh {228 260 50 50} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
+      }
+      Fl_Box hipFilter {
+        label hipFilter
+        callback {cout << o->label << endl;}
+        xywh {25 445 115 65} box UP_BOX
+        code0 {\#include "avtk_filter_highpass.h"}
+        class AvtkFilterHighpass
+      }
+      Fl_Box lopFilter {
+        label lopFilter
+        callback {cout << o->label << endl;}
+        xywh {25 515 115 65} box UP_BOX
+        code0 {\#include "avtk_filter_lowpass.h"}
+        class AvtkFilterLowpass
+      }
+      Fl_Box bigf {
+        label hipFilter
+        callback {cout << o->label << endl;}
+        xywh {390 280 290 160} box UP_BOX
+        code0 {\#include "avtk_filter_highpass.h"}
+        class AvtkFilterHighpass
       }
     }
     code {w->show();} {}

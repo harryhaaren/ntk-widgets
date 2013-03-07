@@ -12,6 +12,8 @@ class AvtkDial : public Fl_Slider
       w = _w;
       h = _h;
       
+      v = 0;
+      
       mouseClickedY = 0;
       mouseClicked = false;
       
@@ -19,6 +21,7 @@ class AvtkDial : public Fl_Slider
       label = _label;
     }
     
+    float v;
     
     bool highlight;
     int x, y, w, h;
@@ -76,6 +79,22 @@ class AvtkDial : public Fl_Slider
       redraw();
     }
     
+    /*
+    int value(double newV)
+    {
+      cout << "dial got " << newV << endl;
+      
+      if ( newV > 1.0f ) {newV = 1.f;}
+      if ( newV < 0.0f ) {newV = 0.f;}
+      
+      v = newV;
+      
+      return 0;
+    }
+    
+    double value() const {return v;}
+    */
+    
     int handle(int event)
     {
       //cout << "handle event type = " << event << " value = " << value() << endl;
@@ -106,10 +125,10 @@ class AvtkDial : public Fl_Slider
               if ( val < 0.0 ) val = 0.0;
               
               //handle_drag( value + deltaY );
-              value( val );
+              set_value( val );
               
               mouseClickedY = Fl::event_y();
-                
+              do_callback(); // makes FLTK call "extra" code entered in FLUID
               redraw();
             }
           }

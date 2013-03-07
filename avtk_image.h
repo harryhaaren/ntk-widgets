@@ -28,7 +28,7 @@ class AvtkImage : public Fl_Widget
       
       if ( _label )
       {
-        cout << "creating image from label" << endl;
+        //cout << "creating image from label" << endl;
         imageSurf = cairo_image_surface_create_from_png( label );
       }
     }

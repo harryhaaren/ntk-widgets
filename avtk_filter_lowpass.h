@@ -16,7 +16,7 @@ class AvtkFilterLowpass : public Fl_Slider
       
       label = _label;
       
-      mouseClickedY = 0;
+      mouseClickedX = 0;
       mouseClicked = false;
       
       active = true;
@@ -28,7 +28,7 @@ class AvtkFilterLowpass : public Fl_Slider
     int x, y, w, h;
     const char* label;
     
-    int mouseClickedY;
+    int mouseClickedX;
     bool mouseClicked;
     
     void set_active(bool a)
@@ -134,8 +134,6 @@ class AvtkFilterLowpass : public Fl_Slider
     
     int handle(int event)
     {
-      return 0;
-      
       switch(event)
       {
         case FL_PUSH:
@@ -148,14 +146,14 @@ class AvtkFilterLowpass : public Fl_Slider
             {
               if ( mouseClicked == false ) // catch the "click" event
               {
-                mouseClickedY = Fl::event_y();
+                mouseClickedX = Fl::event_x();
                 mouseClicked = true;
               }
               
-              float deltaY = mouseClickedY - Fl::event_y();
+              float deltaY = mouseClickedX - Fl::event_x();
               
               float val = value();
-              val += deltaY / 100.f;
+              val -= deltaY / 100.f;
               
               if ( val > 1.0 ) val = 1.0;
               if ( val < 0.0 ) val = 0.0;
@@ -163,7 +161,7 @@ class AvtkFilterLowpass : public Fl_Slider
               //handle_drag( value + deltaY );
               set_value( val );
               
-              mouseClickedY = Fl::event_y();
+              mouseClickedX = Fl::event_x();
               redraw();
               do_callback(); // makes FLTK call "extra" code entered in FLUID
             }

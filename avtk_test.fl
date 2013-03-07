@@ -7,8 +7,8 @@ class AvtkTest {open
   Function {AvtkTest()} {open
   } {
     Fl_Window {} {
-      label {Avtk Showcase} open selected
-      xywh {553 58 790 625} type Double
+      label {Avtk Showcase} open
+      xywh {554 91 790 625} type Double
       code0 {\#include "avtk_helpers.h"} visible
     } {
       Fl_Box bg_left {
@@ -25,7 +25,7 @@ class AvtkTest {open
       }
       Fl_Box bg_mid {
         label background
-        xywh {15 100 600 120}
+        xywh {15 100 600 120} box UP_BOX
         code0 {\#include "avtk_background.h"}
         class AvtkBackground
       }
@@ -127,6 +127,12 @@ lopFilter->set_active(false);}
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }
+      Fl_Box bigFilterBg {
+        label Buttons selected
+        xywh {360 236 255 159} box UP_BOX
+        code0 {\#include "avtk_background.h"}
+        class AvtkBackground
+      }
       Fl_Dial dial_low6 {
         label testing
         callback {cout << o->label << " " << v << endl;}
@@ -200,13 +206,6 @@ bigf->value( 1.f - o->value() );}
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }
-      Fl_Box hipFilter {
-        label hipFilter
-        callback {cout << o->label << endl;}
-        xywh {25 445 115 65} box UP_BOX
-        code0 {\#include "avtk_filter_highpass.h"}
-        class AvtkFilterHighpass
-      }
       Fl_Box lopFilter {
         label lopFilter
         callback {cout << o->label << endl;}
@@ -217,7 +216,14 @@ bigf->value( 1.f - o->value() );}
       Fl_Box bigf {
         label hipFilter
         callback {cout << o->label << endl;}
-        xywh {390 280 290 160} box UP_BOX
+        xywh {365 260 245 130} box UP_BOX
+        code0 {\#include "avtk_filter_highpass.h"}
+        class AvtkFilterHighpass
+      }
+      Fl_Dial hipFilter {
+        label hipFilter
+        callback {cout << o->label << endl;}
+        xywh {25 445 115 65} type Line box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_filter_highpass.h"}
         class AvtkFilterHighpass
       }

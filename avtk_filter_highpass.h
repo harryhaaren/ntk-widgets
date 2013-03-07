@@ -6,7 +6,7 @@
 class AvtkFilterHighpass : public Fl_Slider
 {
   public:
-    AvtkFilterHighpass(int _x, int _y, int _w, int _h, const char *_label):
+    AvtkFilterHighpass(int _x, int _y, int _w, int _h, const char *_label = 0):
         Fl_Slider(_x, _y, _w, _h, _label)
     {
       x = _x;
@@ -16,6 +16,9 @@ class AvtkFilterHighpass : public Fl_Slider
       
       label = _label;
       
+      mouseClickedY = 0;
+      mouseClicked = false;
+      
       active = true;
       highlight = false;
     }
@@ -24,6 +27,9 @@ class AvtkFilterHighpass : public Fl_Slider
     bool highlight;
     int x, y, w, h;
     const char* label;
+    
+    int mouseClickedY;
+    bool mouseClicked;
     
     void set_active(bool a)
     {
@@ -136,10 +142,31 @@ class AvtkFilterHighpass : public Fl_Slider
           highlight = 0;
           redraw();
           return 1;
-        case FL_DRAG: {
-            int t = Fl::event_inside(this);
-            if (t != highlight) {
+        case FL_DRAG:
+          {
+            if ( Fl::event_state(FL_BUTTON1) )
+            {
+              if ( mouseClicked == false ) // catch the "click" event
+              {
+                cout << "mouse clicked!" << endl;
+                mouseClickedY = Fl::event_y();
+                mouseClicked = true;
+              }
+              
+              float deltaY = mouseClickedY - Fl::event_y();
+              
+              float val = value();
+              val += deltaY / 100.f;
+              
+              if ( val > 1.0 ) val = 1.0;
+              if ( val < 0.0 ) val = 0.0;
+              
+              //handle_drag( value + deltaY );
+              set_value( val );
+              
+              mouseClickedY = Fl::event_y();
               redraw();
+              do_callback(); // makes FLTK call "extra" code entered in FLUID
             }
           }
           return 1;
@@ -149,6 +176,7 @@ class AvtkFilterHighpass : public Fl_Slider
             redraw();
             do_callback();
           }
+          mouseClicked = false;
           return 1;
         case FL_SHORTCUT:
           if ( test_shortcut() )

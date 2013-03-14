@@ -12,12 +12,25 @@ class AvtkOpenGL : public Fl_Gl_Window
         Fl_Gl_Window(x,y,w,h,l)
     {
       overlay_sides = 3;
+      offset = 0;
+      damage(FL_DAMAGE_ALL);
     }
     
     int overlay_sides;
+    float offset;
+    
+    static void static_update(void* inst)
+    {
+      AvtkOpenGL* instance = (AvtkOpenGL*)inst;
+      instance->offset += 0.1;
+      
+      Fl::repeat_timeout(0.05, &AvtkOpenGL::static_update, inst);
+      
+      instance->damage(FL_DAMAGE_ALL);
+    }
     
     void draw()
-    {
+    {      
       // the valid() property may be used to avoid reinitializing your
       // GL transformation for each redraw:
       if (!valid())
@@ -31,31 +44,18 @@ class AvtkOpenGL : public Fl_Gl_Window
       
       glBegin(GL_POLYGON);
       
-      for (int j=0; j< 3; j++) {
-        double ang = j*2*M_PI/3;
-        glColor3f(float(j)/3,float(j)/3,float(j)/3);
+        double ang = 0*2*M_PI/3 + offset;
+        glColor3f(1.0,0.48,0);
         glVertex3f(cos(ang),sin(ang),0);
-      }
-      glEnd();
-    }
-    
-    void draw_overlay()
-    {
-      // the valid() property may be used to avoid reinitializing your
-      // GL transformation for each redraw:
-      if (!valid())
-      {
-        valid(1);
-        glLoadIdentity();
-        glViewport(0,0,w(),h());
-      }
-      // draw an amazing graphic:
-      gl_color(FL_RED);
-      glBegin(GL_LINE_LOOP);
-      for (int j=0; j<overlay_sides; j++) {
-        double ang = j*2*M_PI/overlay_sides;
+      
+        ang = 1*2*M_PI/3 + offset;
+        glColor3f(0.0,0.6,1.0);
         glVertex3f(cos(ang),sin(ang),0);
-      }
+        
+        ang = 2*2*M_PI/3 + offset;
+        glColor3f(0.1,1.0,0.1);
+        glVertex3f(cos(ang),sin(ang),0);
+      
       glEnd();
     }
 };

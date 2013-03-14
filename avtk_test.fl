@@ -128,7 +128,7 @@ lopFilter->set_active(false);}
         class AvtkDial
       }
       Fl_Box bigFilterBg {
-        label Buttons selected
+        label Buttons
         xywh {360 236 255 159} box UP_BOX
         code0 {\#include "avtk_background.h"}
         class AvtkBackground
@@ -156,7 +156,7 @@ lopFilter->set_active(false);}
       }
       Fl_Dial dial_low64 {
         label testing
-        callback {cout << o->label << " " << v << endl;}
+        callback {cout << o->label << " " << v << endl;} selected
         xywh {228 467 50 50} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
@@ -187,7 +187,7 @@ lopFilter->set_active(false);}
         callback {cout << o->label << " " << v << endl;
 lopFilter->value( o->value() );
 hipFilter->value( 1.f - o->value() );
-bigf->value( 1.f - o->value() );}
+opengl->draw();}
         xywh {176 260 50 50} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
@@ -213,13 +213,6 @@ bigf->value( 1.f - o->value() );}
         code0 {\#include "avtk_filter_lowpass.h"}
         class AvtkFilterLowpass
       }
-      Fl_Box bigf {
-        label hipFilter
-        callback {cout << o->label << endl;}
-        xywh {365 260 245 130} box UP_BOX
-        code0 {\#include "avtk_filter_highpass.h"}
-        class AvtkFilterHighpass
-      }
       Fl_Dial hipFilter {
         label hipFilter
         callback {cout << o->label << endl;}
@@ -227,7 +220,15 @@ bigf->value( 1.f - o->value() );}
         code0 {\#include "avtk_filter_highpass.h"}
         class AvtkFilterHighpass
       }
+      Fl_Box opengl {
+        label openGL
+        callback {cout << "OpenGL" << endl;}
+        xywh {365 260 245 130} box UP_BOX
+        code0 {\#include "avtk_opengl.h"}
+        class AvtkOpenGL
+      }
     }
-    code {w->show();} {}
+    code {Fl::add_timeout(1.0, &AvtkOpenGL::static_update, opengl );
+w->show();} {}
   }
 } 

@@ -24,7 +24,7 @@ class AvtkTest {open
         class AvtkBackground
       }
       Fl_Box bg_mid {
-        label background
+        label {Waveform Display} selected
         xywh {15 100 600 120} box UP_BOX
         code0 {\#include "avtk_background.h"}
         class AvtkBackground
@@ -127,8 +127,8 @@ lopFilter->set_active(false);}
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }
-      Fl_Box bigFilterBg {
-        label Buttons
+      Fl_Box openGlBg {
+        label OpenGL
         xywh {360 236 255 159} box UP_BOX
         code0 {\#include "avtk_background.h"}
         class AvtkBackground
@@ -156,7 +156,7 @@ lopFilter->set_active(false);}
       }
       Fl_Dial dial_low64 {
         label testing
-        callback {cout << o->label << " " << v << endl;} selected
+        callback {cout << o->label << " " << v << endl;}
         xywh {228 467 50 50} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
@@ -223,7 +223,7 @@ opengl->draw();}
       Fl_Box opengl {
         label openGL
         callback {cout << "OpenGL" << endl;}
-        xywh {365 260 245 130} box UP_BOX
+        xywh {363 260 249 132} box UP_BOX
         code0 {\#include "avtk_opengl.h"}
         class AvtkOpenGL
       }

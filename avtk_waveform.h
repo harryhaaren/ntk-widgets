@@ -12,8 +12,6 @@
 using namespace std;
 using namespace Cairo;
 
-extern float floatArray[752];
-
 class AvtkWaveform : public Fl_Widget
 {
   public:
@@ -39,7 +37,7 @@ class AvtkWaveform : public Fl_Widget
       
       for (int i = 0; i < 700; i++)
       {
-        data->push_back( rand() / float(RAND_MAX) );
+        data->push_back( rand() / (float(RAND_MAX)*3) );
       }
       
       newWaveform = true;
@@ -156,6 +154,12 @@ class AvtkWaveform : public Fl_Widget
         cairo_set_source_surface(cr, waveformSurf, x, y);
         cairo_rectangle( cr, x, y, w, h);
         cairo_paint(cr);
+        
+        // stroke rim
+        cairo_set_line_width(cr, 0.9);
+        cairo_rectangle(cr, x, y, w, h);
+        cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 1 );
+        cairo_stroke( cr );
         
         //cout << "waveform draw() done" << endl;
         

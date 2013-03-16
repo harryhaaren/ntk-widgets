@@ -8,13 +8,21 @@
 class AvtkOpenGL : public Fl_Gl_Window
 {
   public:
-    AvtkOpenGL(int x,int y,int w,int h,const char *l=0):
-        Fl_Gl_Window(x,y,w,h,l)
+    AvtkOpenGL(int _x,int _y,int _w,int _h,const char *l=0):
+        Fl_Gl_Window(_x,_y,_w,_h,l)
     {
       overlay_sides = 3;
       offset = 0;
       damage(FL_DAMAGE_ALL);
+      
+      x = _x;
+      y = _y;
+      width = _w;
+      height = _h;
+      
     }
+    
+    int x, y, width, height;
     
     int overlay_sides;
     float offset;
@@ -30,7 +38,7 @@ class AvtkOpenGL : public Fl_Gl_Window
     }
     
     void draw()
-    {      
+    {
       // the valid() property may be used to avoid reinitializing your
       // GL transformation for each redraw:
       if (!valid())
@@ -39,11 +47,10 @@ class AvtkOpenGL : public Fl_Gl_Window
         glLoadIdentity();
         glViewport(0,0,w(),h());
       }
-      // draw an amazing but slow graphic:
+      
       glClear(GL_COLOR_BUFFER_BIT);
       
       glBegin(GL_POLYGON);
-      
         double ang = 0*2*M_PI/3 + offset;
         glColor3f(1.0,0.48,0);
         glVertex3f(cos(ang),sin(ang),0);
@@ -55,8 +62,22 @@ class AvtkOpenGL : public Fl_Gl_Window
         ang = 2*2*M_PI/3 + offset;
         glColor3f(0.1,1.0,0.1);
         glVertex3f(cos(ang),sin(ang),0);
-      
       glEnd();
+      
+      /*
+      // now draw outline box over openGL content
+      cairo_t *cr = Fl::cairo_cc();
+      
+      cairo_save( cr );
+      
+      // stroke rim
+      cairo_set_line_width(cr, 1.9);
+      cairo_rectangle(cr, x, y, width, height);
+      cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 1 );
+      cairo_stroke( cr );
+      
+      cairo_restore( cr );
+      */
     }
 };
 

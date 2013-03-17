@@ -12,6 +12,14 @@ class AvtkDial : public Fl_Slider
       w = _w;
       h = _h;
       
+      // * 0.9 for line width to remain inside redraw area
+      if ( w > h )
+        radius = (h / 2.f)*0.9;
+      else
+        radius = (w / 2.f)*0.9;
+      
+      lineWidth = 1.4 + radius / 12.f;
+      
       mouseClickedY = 0;
       mouseClicked = false;
       
@@ -22,6 +30,9 @@ class AvtkDial : public Fl_Slider
     bool highlight;
     int x, y, w, h;
     const char* label;
+    
+    float radius;
+    float lineWidth;
     
     int mouseClickedY;
     bool mouseClicked;
@@ -34,8 +45,10 @@ class AvtkDial : public Fl_Slider
         
         cairo_save( cr );
         
-        float radius = 15;
-        cairo_set_line_width(cr, 1.5);
+        cairo_set_line_join(cr, CAIRO_LINE_JOIN_ROUND);
+        cairo_set_line_cap(cr, CAIRO_LINE_CAP_ROUND);
+        
+        cairo_set_line_width(cr, lineWidth-0.2);
         cairo_move_to( cr, x+w/2,y+h/2);
         cairo_line_to( cr, x+w/2,y+h/2);
         cairo_set_source_rgba(cr, 0.1, 0.1, 0.1, 0 );
@@ -46,18 +59,11 @@ class AvtkDial : public Fl_Slider
         cairo_stroke(cr);
         
         float angle = 2.46 + ( 4.54 * value() );
-        cairo_set_line_width(cr, 1.7);
-        cairo_arc(cr, x+w/2,y+h/2, radius-1.8, 2.46, angle );
+        cairo_set_line_width(cr, lineWidth);
+        cairo_arc(cr, x+w/2,y+h/2, radius, 2.46, angle );
         cairo_line_to(cr, x+w/2,y+h/2);
-        cairo_set_source_rgb(cr, 0.4, 0.4, 0.4 );
-        cairo_stroke(cr);
-        cairo_arc(cr, x+w/2,y+h/2, radius+1.8, 2.46, angle );
-        cairo_line_to(cr, x+w/2,y+h/2);
-        cairo_set_source_rgb(cr, 0.4, 0.4, 0.4 );
-        cairo_set_line_width(cr, 2.2);
         cairo_set_source_rgba(cr, 1.0, 0.48,   0, 0.8);
         cairo_stroke(cr);
-        
         
         cairo_restore( cr );
         

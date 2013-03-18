@@ -8,7 +8,7 @@ class AvtkTest {open
   } {
     Fl_Window {} {
       label {Avtk Showcase} open
-      xywh {166 151 790 625} type Double
+      xywh {568 119 790 625} type Double
       code0 {\#include "avtk_helpers.h"} visible
     } {
       Fl_Box bg_left {
@@ -116,7 +116,9 @@ lopFilter->set_active(false);}
         label testing
         callback {lopFilter->value( o->value() );
 smallDial->value( o->value() );
-hipFilter->value( 1.f - o->value() );}
+hipFilter->value( 1.f - o->value() );
+lfo->value( o->value() );
+adsr->value( o->value() );}
         xywh {200 445 115 115} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
@@ -134,7 +136,7 @@ bigDial->value( f );}
       }
       Fl_Dial {} {
         label testing
-        callback {cout << o->label << " " << v << endl;}
+        callback {cout << o->label << " " << v << endl;} selected
         xywh {280 260 35 35} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
@@ -162,7 +164,7 @@ bigDial->value( f );}
       }
       Fl_Box opengl {
         label openGL
-        callback {cout << "OpenGL" << endl;} selected
+        callback {cout << "OpenGL" << endl;}
         xywh {361 257 253 137} box UP_BOX
         code0 {\#include "avtk_opengl.h"}
         class AvtkOpenGL
@@ -176,19 +178,19 @@ bigDial->value( f );}
       Fl_Box adsr {
         label Adsr
         callback {cout << "adsr" << endl;}
-        xywh {370 427 110 71} box UP_BOX labeltype NO_LABEL
+        xywh {367 427 115 71} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_adsr.h"}
         class AvtkADSR
       }
-      Fl_Box adsr2 {
-        label Adsr
-        callback {cout << "adsr" << endl;}
-        xywh {370 507 110 78} box UP_BOX labeltype NO_LABEL
-        code0 {\#include "avtk_adsr.h"}
-        class AvtkADSR
+      Fl_Box lfo {
+        label LFO
+        callback {cout << "lfo" << endl;}
+        xywh {367 507 115 78} box UP_BOX labeltype NO_LABEL
+        code0 {\#include "avtk_lfo.h"}
+        class AvtkLFO
       }
     }
-    code {Fl::add_timeout(1.0, &AvtkOpenGL::static_update, opengl );
+    code {Fl::add_timeout(0.01, &AvtkOpenGL::static_update, opengl );
 w->show();} {}
   }
 } 

@@ -1,10 +1,10 @@
 
 #include <FL/Fl_Button.H>
 
-class AvtkADSR : public Fl_Slider
+class AvtkLFO : public Fl_Slider
 {
   public:
-    AvtkADSR(int _x, int _y, int _w, int _h, const char *_label =0):
+    AvtkLFO(int _x, int _y, int _w, int _h, const char *_label =0):
         Fl_Slider(_x, _y, _w, _h, _label)
     {
       x = _x;
@@ -31,6 +31,7 @@ class AvtkADSR : public Fl_Slider
         
         cairo_save( cr );
         
+
         // WAVEFORM graph
         cairo_rectangle( cr, x, y, w, h );
         cairo_set_source_rgb( cr,28 / 255.f,  28 / 255.f ,  28 / 255.f  );
@@ -65,31 +66,71 @@ class AvtkADSR : public Fl_Slider
         
       
       // ADSR graph plotting
-        float a = value();
-        float d = value();
-        float s = value();
-        float r = value();
+        float wavetableMod = value();
+        float lfoAmp = value();
+        float volume = value();
         
-        cairo_move_to( cr, x + 2, y + h );
         
-        cairo_line_to( cr, x + 5 + (w * (a / 5.f)), y + h * 0.1   ); // attack
         
-        cairo_rel_line_to( cr, w * (d / 5.2f),   (h*0.9) * s   ); // decay, and sustain height
+        // Waveform data: WavetableMod
+        {
+          int drawX = x;
+          int drawY = y + h - 2;
+          
+          cairo_set_line_width(cr, 3.3);
+          cairo_rectangle( cr, x, y + h - 2, w * wavetableMod, 1);
+          cairo_set_source_rgba( cr, 25 / 255.f, 255 / 255.f ,   0 / 255.f , 0.7 );
+          cairo_stroke( cr );
+        }
+        // Waveform data: Volume
+        {
+          int drawX = x+w-3;
+          int drawY = y;
+          
+          float volume = 0.7;
+          cairo_set_line_width(cr, 2.4);
+          cairo_rectangle( cr, drawX, drawY+ h*(1-lfoAmp), 1,  (h*lfoAmp) ); 
+          cairo_set_source_rgba( cr, 255 / 255.f, 104 / 255.f ,   0 / 255.f , 1 );
+          cairo_stroke( cr );
+        }
         
-        cairo_rel_line_to( cr, w * 0.4, 0  ); // sustain horizontal line
         
-        cairo_rel_line_to( cr, 0.85 * w * ( (r) / 5.f), h - (h*0.9) * s - h * 0.1  ); // remaining Y down
+        // sinewave (in graph 1)
+        int x1 = x;
+        int xS = w;
+        int y1 = y + 2; // set down a litte
+        int yS = h;
+        cairo_move_to( cr, x1, y1 + yS / 2 );
         
-        //cairo_set_source_rgb( cr,28 / 255.f,  28 / 255.f ,  28 / 255.f  );
-        cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 0.21 );
-        cairo_fill_preserve(cr);
-        cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 1 );
-        cairo_set_line_width(cr, 1.5);
-        cairo_set_line_join( cr, CAIRO_LINE_JOIN_ROUND);
-        cairo_set_line_cap ( cr, CAIRO_LINE_CAP_ROUND);
+        int m1x = x1 + xS / 6;
+        int m1y = (y1 + yS / 2)   -   53 * lfoAmp;
+        
+        int m2x = x1 + xS / 3;
+        int m2y = m1y;
+        
+        int endX = x1 + xS / 2;
+        int endY = y1 + yS / 2;
+        cairo_curve_to( cr, m1x, m1y, m2x, m2y, endX, endY);
+        
+        int m3x = x1 + 2 * xS / 3;
+        int m3y = y1 + yS / 2.f + ((yS + 7) * 0.5 * lfoAmp);
+        
+        int m4x = x1 + 5 * xS / 6;
+        int m4y = m3y;
+        
+        int end2X = x1 + xS;
+        int end2Y = y1 + yS / 2;
+        cairo_curve_to( cr, m3x, m3y, m4x, m4y, end2X, end2Y);
+        
+        cairo_set_source_rgba( cr, 25 / 255.f, 255 / 255.f ,   0 / 255.f , 1 );
+        cairo_set_line_width(cr, 1.6);
         cairo_stroke( cr );
         
+        
+        
+        
         // stroke rim
+        cairo_set_line_width(cr, 1.4);
         cairo_rectangle(cr, x, y, w, h);
         cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 1 );
         cairo_stroke( cr );

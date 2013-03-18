@@ -8,7 +8,7 @@ class AvtkTest {open
   } {
     Fl_Window {} {
       label {Avtk Showcase} open
-      xywh {554 91 790 625} type Double
+      xywh {166 151 790 625} type Double
       code0 {\#include "avtk_helpers.h"} visible
     } {
       Fl_Box bg_left {
@@ -36,7 +36,7 @@ class AvtkTest {open
         class AvtkImage
       }
       Fl_Box bg_r_low {
-        label {Dials (various sizes)} selected
+        label {Dials (various sizes)}
         xywh {165 236 180 340} box UP_BOX
         code0 {\#include "avtk_background.h"}
         class AvtkBackground
@@ -162,10 +162,30 @@ bigDial->value( f );}
       }
       Fl_Box opengl {
         label openGL
-        callback {cout << "OpenGL" << endl;}
-        xywh {363 260 249 132} box UP_BOX
+        callback {cout << "OpenGL" << endl;} selected
+        xywh {361 257 253 137} box UP_BOX
         code0 {\#include "avtk_opengl.h"}
         class AvtkOpenGL
+      }
+      Fl_Box {} {
+        label ADSR
+        xywh {360 401 130 193} box UP_BOX
+        code0 {\#include "avtk_background.h"}
+        class AvtkBackground
+      }
+      Fl_Box adsr {
+        label Adsr
+        callback {cout << "adsr" << endl;}
+        xywh {370 427 110 71} box UP_BOX labeltype NO_LABEL
+        code0 {\#include "avtk_adsr.h"}
+        class AvtkADSR
+      }
+      Fl_Box adsr2 {
+        label Adsr
+        callback {cout << "adsr" << endl;}
+        xywh {370 507 110 78} box UP_BOX labeltype NO_LABEL
+        code0 {\#include "avtk_adsr.h"}
+        class AvtkADSR
       }
     }
     code {Fl::add_timeout(1.0, &AvtkOpenGL::static_update, opengl );

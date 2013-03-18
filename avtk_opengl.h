@@ -30,9 +30,9 @@ class AvtkOpenGL : public Fl_Gl_Window
     static void static_update(void* inst)
     {
       AvtkOpenGL* instance = (AvtkOpenGL*)inst;
-      instance->offset += 0.1;
+      instance->offset += 0.07;
       
-      Fl::repeat_timeout(0.05, &AvtkOpenGL::static_update, inst);
+      Fl::repeat_timeout( 1 / 60.f, &AvtkOpenGL::static_update, inst);
       
       instance->damage(FL_DAMAGE_ALL);
     }
@@ -50,34 +50,25 @@ class AvtkOpenGL : public Fl_Gl_Window
       
       glClear(GL_COLOR_BUFFER_BIT);
       
+      
+      glEnable (GL_BLEND);
+      //glBlendFunc (GL_SRC_ALPHA_SATURATE, GL_ONE);
+      glEnable(GL_POLYGON_SMOOTH);
+      
       glBegin(GL_POLYGON);
         double ang = 0*2*M_PI/3 + offset;
         glColor3f(1.0,0.48,0);
-        glVertex3f(cos(ang),sin(ang),0);
+        glVertex3f(cos(ang)*0.7,sin(ang)*0.7,0);
       
         ang = 1*2*M_PI/3 + offset;
         glColor3f(0.0,0.6,1.0);
-        glVertex3f(cos(ang),sin(ang),0);
+        glVertex3f(cos(ang)*0.7,sin(ang)*0.7,0);
         
         ang = 2*2*M_PI/3 + offset;
         glColor3f(0.1,1.0,0.1);
-        glVertex3f(cos(ang),sin(ang),0);
+        glVertex3f(cos(ang)*0.7,sin(ang)*0.7,0);
       glEnd();
       
-      /*
-      // now draw outline box over openGL content
-      cairo_t *cr = Fl::cairo_cc();
-      
-      cairo_save( cr );
-      
-      // stroke rim
-      cairo_set_line_width(cr, 1.9);
-      cairo_rectangle(cr, x, y, width, height);
-      cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 1 );
-      cairo_stroke( cr );
-      
-      cairo_restore( cr );
-      */
     }
 };
 

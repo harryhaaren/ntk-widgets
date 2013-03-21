@@ -9,7 +9,6 @@
 #include <iostream>
 
 using namespace std;
-using namespace Cairo;
 
 class AvtkImage : public Fl_Widget
 {

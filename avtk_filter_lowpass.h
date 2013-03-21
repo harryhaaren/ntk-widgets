@@ -1,5 +1,6 @@
 
 #include <FL/Fl_Widget.H>
+#include <FL/Fl_Slider.H>
 #include <valarray>
 #include <string>
 

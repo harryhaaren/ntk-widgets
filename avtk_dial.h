@@ -1,4 +1,7 @@
 
+#ifndef AVTK_DIAL_H
+#define AVTK_DIAL_H
+
 #include <FL/Fl_Slider.H>
 
 class AvtkDial : public Fl_Slider
@@ -132,3 +135,5 @@ class AvtkDial : public Fl_Slider
       }
     }
 };
+
+#endif // AVTK_DIAL_H

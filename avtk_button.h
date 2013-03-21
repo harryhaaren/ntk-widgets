@@ -1,4 +1,7 @@
 
+#ifndef AVTK_BUTTON_H
+#define AVTK_BUTTON_H
+
 #include <FL/Fl_Button.H>
 
 class AvtkButton : public Fl_Button
@@ -108,3 +111,6 @@ class AvtkButton : public Fl_Button
       }
     }
 };
+
+#endif // AVTK_BUTTON_H
+

@@ -1,4 +1,7 @@
 
+#ifndef AVTK_ADSR_H
+#define AVTK_ADSR_H
+
 #include <FL/Fl_Button.H>
 
 class AvtkADSR : public Fl_Slider
@@ -152,3 +155,6 @@ class AvtkADSR : public Fl_Slider
       }
     }
 };
+
+#endif // AVTK_ADSR_H
+

@@ -1,4 +1,8 @@
 
+#ifndef AVTK_BACKGROUND_H
+#define AVTK_BACKGROUND_H
+
+
 #include <FL/Fl_Widget.H>
 #include <valarray>
 #include <string>
@@ -132,3 +136,6 @@ class AvtkBackground : public Fl_Widget
       }
     }
 };
+
+#endif // AVTK_BACKGROUND_H
+

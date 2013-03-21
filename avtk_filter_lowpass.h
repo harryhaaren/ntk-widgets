@@ -1,4 +1,8 @@
 
+#define AVTK_FILTER_LOWPASS_H
+#define AVTK_FILTER_LOWPASS_H
+
+
 #include <FL/Fl_Widget.H>
 #include <FL/Fl_Slider.H>
 #include <valarray>
@@ -188,3 +192,5 @@ class AvtkFilterLowpass : public Fl_Slider
       }
     }
 };
+
+#endif // AVTK_FILTER_LOWPASS_H

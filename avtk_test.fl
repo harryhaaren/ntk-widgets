@@ -159,7 +159,7 @@ bigDial->value( f );}
         label HipFilter
         callback {cout << o->label << endl;} selected
         xywh {25 445 115 65} type Line box UP_BOX labeltype NO_LABEL
-        code0 {hipFilter->setType(1);}
+        code0 {hipFilter->setType(2);}
         class AvtkFiltergraph
       }
       Fl_Box opengl {

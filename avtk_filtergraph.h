@@ -226,7 +226,7 @@ class AvtkFiltergraph : public Fl_Slider
       // draw the cutoff line:
       float cutoff = 0.9 - (value()*0.8);
       
-      // move to bottom right, draw line to middle right
+      // move to bottom right
       cairo_move_to( cr, x + w, y + h );
       cairo_line_to( cr, x + w, y + (h*0.47));
       
@@ -248,6 +248,47 @@ class AvtkFiltergraph : public Fl_Slider
     }
     void drawBandpass(cairo_t* cr)
     {
+      // draw the cutoff line:
+      float cutoff = 0.9 - (value()*0.8);
+      
+      // move to bottom right
+      cairo_move_to( cr, x, y + h - 2 );
+      
+      // spacer amount
+      float spc = w/10.f;
+      
+      int cp1 = x + w*cutoff - 2*spc;
+      if (cp1 < x + 2 ) cp1 = x + 2;
+      
+      int cp2 = x + w*cutoff - 1*spc;
+      if (cp2 < x  ) cp2 = x;
+      
+      cairo_curve_to( cr, cp1         , y + h -2    ,  // control point 1
+                          cp2         , y +(h * 0.3),  // control point 2
+                          x + w*cutoff, y+ (h/ 3.5)   ); // end of curve 1
+      
+      cp1 = x + w*cutoff + 1*spc;
+      if (cp1 > x + w) cp1 = x + w;
+      
+      cp2 = x + w*cutoff + 2*spc;
+      if (cp2 > x + w - 2) cp2 = x + w - 2;
+      
+      cairo_curve_to( cr, cp1    , y +(h * 0.3), // control point 1
+                          cp2    , y + h -2    , // control point 2
+                          x +  w , y + h - 2  ); // end of curve 1
+      
+      
+      cairo_line_to( cr, x + w, y + h - 2);
+      
+      if ( active )
+        cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 0.2 );
+      else
+        cairo_set_source_rgba( cr,  66 / 255.f,  66 / 255.f ,  66 / 255.f , 0.5 );
+      
+      cairo_close_path(cr);
+      cairo_fill_preserve(cr);
+      
+      avtk_stroke_line(cr, true);
     }
     void drawLowshelf(cairo_t* cr)
     {

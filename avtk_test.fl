@@ -8,8 +8,8 @@ class AvtkTest {open
   } {
     Fl_Window {} {
       label {Avtk Showcase} open
-      xywh {650 97 790 625} type Double
-      code0 {\#include "avtk_helpers.h"} visible
+      xywh {650 97 790 625} type Double hide
+      code0 {\#include "avtk_helpers.h"}
     } {
       Fl_Box bg_left {
         label Buttons
@@ -120,7 +120,7 @@ hipFilter->value( 1.f - o->value() );
 lfo->value( o->value() );
 adsr->value( o->value() );
 lightbtn->value( o->value() + 0.5 );
-filgraph2->value( o->value() );} selected
+filgraph2->value( o->value() );}
         xywh {200 460 115 115} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
@@ -201,12 +201,12 @@ bigDial->value( f );}
         callback {cout << "filtergraph " << o->value() << endl;}
         xywh {502 427 115 71} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_filtergraph.h"}
-        code1 {filgraph->setType(2);}
+        code1 {filgraph->setType(4);}
         class AvtkFiltergraph
       }
       Fl_Box filgraph2 {
         label LFO
-        callback {cout << "lfo" << endl;}
+        callback {cout << "lfo" << endl;} selected
         xywh {502 507 115 78} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_lfo.h"}
         code1 {filgraph2->setType(3);}

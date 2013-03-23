@@ -43,6 +43,7 @@ class AvtkFiltergraph : public Fl_Slider
       highlight = false;
       
       gain = 0;
+      bandwidth = 0;
     }
     
     void setType(Type t)
@@ -62,6 +63,7 @@ class AvtkFiltergraph : public Fl_Slider
     bool mouseClicked;
     
     float gain;
+    float bandwidth;
     
     void set_active(bool a)
     {
@@ -232,8 +234,6 @@ class AvtkFiltergraph : public Fl_Slider
         cairo_fill_preserve(cr);
         
         avtk_stroke_line(cr, true);
-        
-        cairo_stroke(cr);
     }
         
     void drawHighpass(cairo_t* cr)
@@ -310,21 +310,13 @@ class AvtkFiltergraph : public Fl_Slider
     
     void drawLowshelf(cairo_t* cr)
     {
-      //cairo_save( cr );
-      
-      //cairo_rectangle( cr, x, y, w, h );
-      //cairo_clip( cr );
-      double dx = x;
-      double dy = y;
-      double dw = w;
-      double dh = h;
-      cairo_clip_extents(cr, &dx, &dy, &dw, &dh );
-      
       // draw the cutoff line:
-      float cutoff = value();
+      float cutoff = 0.2 + value() * 0.8;
+      
+      float Q = 0.3 + ( bandwidth * 0.7);
       
       // spacer amount
-      float spc = w/10.f;
+      float spc = w/10.f * Q;
       
       float yGain = (gain-0.5) * (h / 1.5);
       
@@ -361,13 +353,55 @@ class AvtkFiltergraph : public Fl_Slider
       avtk_stroke_line(cr, true);
       
       cairo_reset_clip( cr );
-      //cairo_restore( cr );
     }
     
     
     
     void drawHighshelf(cairo_t* cr)
     {
+      // draw the cutoff line:
+      float cutoff = value() * 0.8;
+      
+      float Q = 0.3 + ( bandwidth * 0.7);
+      
+      // spacer amount
+      float spc = w/10.f * Q;
+      
+      float yGain = (gain-0.5) * (h / 1.5);
+      
+      // move to bottom right, middle right, middle cutoff
+      cairo_move_to( cr, x, y + h );
+      cairo_line_to( cr, x, y + (h/2.) );
+      cairo_line_to( cr, x + w*cutoff, y + (h/2.) );
+      
+      int cp1 = x+(w*cutoff)+2*spc;
+      int cp2 = x+(w*cutoff)+4*spc;
+      int end = x+(w*cutoff)+6*spc;
+      
+      if ( cp1 > x + w ) cp1 = x + w;
+      if ( cp2 > x + w ) cp2 = x + w;
+      if ( end > x + w ) end = x + w;
+      
+      cairo_curve_to( cr, cp1 , y + h/2.         , // control point 1
+                          cp2 , y + h/2. + yGain , // control point 2
+                          end , y + h/2. + yGain); // end of curve
+      
+      
+      cairo_line_to( cr, x + w, y + h/2. +yGain );
+      cairo_line_to( cr, x + w, y + h );
+      cairo_close_path(cr);
+      
+      if ( active )
+        cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 0.2 );
+      else
+        cairo_set_source_rgba( cr,  66 / 255.f,  66 / 255.f ,  66 / 255.f , 0.5 );
+      
+      
+      cairo_fill_preserve(cr);
+      
+      avtk_stroke_line(cr, true);
+      
+      cairo_reset_clip( cr );
     }
     
     

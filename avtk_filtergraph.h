@@ -274,8 +274,10 @@ class AvtkFiltergraph : public Fl_Slider
       // move to bottom right
       cairo_move_to( cr, x, y + h );
       
+      float Q = 0.2 + (1-bandwidth)*0.85;
+      
       // spacer amount
-      float spc = w/10.f;
+      float spc = w/10.f * Q;
       
       int cp1 = x + w*cutoff - 2*spc;
       if (cp1 < x + 2 ) cp1 = x + 2;

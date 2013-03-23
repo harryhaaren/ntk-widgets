@@ -1,0 +1,4 @@
+
+move all files into avtk/
+create avtk.h header that includes all subheaders
+rename all classes, put into Avtk namespace

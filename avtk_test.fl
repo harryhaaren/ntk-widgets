@@ -119,7 +119,8 @@ smallDial->value( o->value() );
 hipFilter->value( 1.f - o->value() );
 lfo->value( o->value() );
 adsr->value( o->value() );
-lightbtn->value( o->value() + 0.5 );}
+lightbtn->value( o->value() + 0.5 );
+filgraph2->value( o->value() );} selected
         xywh {200 460 115 115} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
@@ -197,7 +198,7 @@ bigDial->value( f );}
       }
       Fl_Box filgraph {
         label Filtergraph
-        callback {cout << "filtergraph " << o->value() << endl;} selected
+        callback {cout << "filtergraph " << o->value() << endl;}
         xywh {502 427 115 71} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_filtergraph.h"}
         code1 {filgraph->setType(2);}
@@ -208,7 +209,7 @@ bigDial->value( f );}
         callback {cout << "lfo" << endl;}
         xywh {502 507 115 78} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_lfo.h"}
-        code1 {filgraph2->setType(1);}
+        code1 {filgraph2->setType(3);}
         class AvtkFiltergraph
       }
     }

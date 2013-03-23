@@ -36,10 +36,13 @@ class AvtkFiltergraph : public Fl_Slider
       label = _label;
       
       mouseClickedX = 0;
+      mouseClickedY = 0;
       mouseClicked = false;
       
       active = true;
       highlight = false;
+      
+      gain = 0;
     }
     
     void setType(Type t)
@@ -55,7 +58,10 @@ class AvtkFiltergraph : public Fl_Slider
     const char* label;
     
     int mouseClickedX;
+    int mouseClickedY;
     bool mouseClicked;
+    
+    float gain;
     
     void set_active(bool a)
     {
@@ -152,23 +158,32 @@ class AvtkFiltergraph : public Fl_Slider
               if ( mouseClicked == false ) // catch the "click" event
               {
                 mouseClickedX = Fl::event_x();
+                mouseClickedY = Fl::event_y();
                 mouseClicked = true;
               }
               
-              float deltaY = mouseClickedX - Fl::event_x();
+              float deltaX = mouseClickedX - Fl::event_x();
+              float deltaY = mouseClickedY - Fl::event_y();
               
-              float val = value();
-              val -= deltaY / 100.f;
+              float valX = value();
+              valX -= deltaX / 100.f;
+              float valY = gain;
+              valY -= deltaY / 100.f;
               
-              if ( val > 1.0 ) val = 1.0;
-              if ( val < 0.0 ) val = 0.0;
+              if ( valX > 1.0 ) valX = 1.0;
+              if ( valX < 0.0 ) valX = 0.0;
+              
+              if ( valY > 1.0 ) valY = 1.0;
+              if ( valY < 0.0 ) valY = 0.0;
               
               //handle_drag( value + deltaY );
-              set_value( val );
+              set_value( valX );
+              gain = valY;
               
               mouseClickedX = Fl::event_x();
+              mouseClickedY = Fl::event_y();
               redraw();
-              do_callback(); // makes FLTK call "extra" code entered in FLUID
+              do_callback();
             }
           }
           return 1;
@@ -290,9 +305,67 @@ class AvtkFiltergraph : public Fl_Slider
       
       avtk_stroke_line(cr, true);
     }
+    
+    
+    
     void drawLowshelf(cairo_t* cr)
     {
+      //cairo_save( cr );
+      
+      //cairo_rectangle( cr, x, y, w, h );
+      //cairo_clip( cr );
+      double dx = x;
+      double dy = y;
+      double dw = w;
+      double dh = h;
+      cairo_clip_extents(cr, &dx, &dy, &dw, &dh );
+      
+      // draw the cutoff line:
+      float cutoff = value();
+      
+      // spacer amount
+      float spc = w/10.f;
+      
+      float yGain = (gain-0.5) * (h / 1.5);
+      
+      // move to bottom right, middle right, middle cutoff
+      cairo_move_to( cr, x + w, y + h );
+      cairo_line_to( cr, x + w, y + (h/2.) );
+      cairo_line_to( cr, x + (w*cutoff), y + (h/2.) );
+      
+      int cp1 = x+(w*cutoff)-2*spc;
+      int cp2 = x+(w*cutoff)-4*spc;
+      int end = x+(w*cutoff)-6*spc;
+      
+      if ( cp1 < x ) cp1 = x;
+      if ( cp2 < x ) cp2 = x;
+      if ( end < x ) end = x;
+      
+      cairo_curve_to( cr, cp1 , y + h/2.         , // control point 1
+                          cp2 , y + h/2. + yGain , // control point 2
+                          end , y + h/2. + yGain); // end of curve
+      
+      
+      cairo_line_to( cr, x, y + h/2. +yGain );
+      cairo_line_to( cr, x, y + h );
+      cairo_close_path(cr);
+      
+      if ( active )
+        cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 0.2 );
+      else
+        cairo_set_source_rgba( cr,  66 / 255.f,  66 / 255.f ,  66 / 255.f , 0.5 );
+      
+      
+      cairo_fill_preserve(cr);
+      
+      avtk_stroke_line(cr, true);
+      
+      cairo_reset_clip( cr );
+      //cairo_restore( cr );
     }
+    
+    
+    
     void drawHighshelf(cairo_t* cr)
     {
     }

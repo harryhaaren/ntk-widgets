@@ -8,8 +8,8 @@ class AvtkTest {open
   } {
     Fl_Window {} {
       label {Avtk Showcase} open
-      xywh {650 97 790 625} type Double hide
-      code0 {\#include "avtk_helpers.h"}
+      xywh {1081 210 790 600} type Double
+      code0 {\#include "avtk_helpers.h"} visible
     } {
       Fl_Box bg_left {
         label Buttons
@@ -31,8 +31,11 @@ class AvtkTest {open
       }
       Fl_Box image {
         label {logo.png}
-        xywh {0 -1 180 56} labeltype EMBOSSED_LABEL
+        callback {cout << "image clicked" << endl;
+system("xdg-open http://www.openavproductions.com/avtk");} selected
+        xywh {0 -1 790 97} labeltype EMBOSSED_LABEL when 3
         code0 {\#include "avtk_image.h"}
+        code1 {\#include <stdio.h>}
         class AvtkImage
       }
       Fl_Box bg_r_low {
@@ -206,7 +209,7 @@ bigDial->value( f );}
       }
       Fl_Box filgraph2 {
         label LFO
-        callback {cout << "lfo" << endl;} selected
+        callback {cout << "lfo" << endl;}
         xywh {502 507 115 78} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_lfo.h"}
         code1 {filgraph2->setType(3);}

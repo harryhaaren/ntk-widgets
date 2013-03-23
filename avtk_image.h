@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <stdio.h>
 
 using namespace std;
 
@@ -84,12 +85,10 @@ class AvtkImage : public Fl_Widget
     
     int handle(int event)
     {
-      return 0;
-      
       switch(event)
       {
         case FL_PUSH:
-          redraw();
+          do_callback();
           return 1;
         case FL_DRAG:
           return 1;

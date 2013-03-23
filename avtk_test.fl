@@ -8,7 +8,7 @@ class AvtkTest {open
   } {
     Fl_Window {} {
       label {Avtk Showcase} open
-      xywh {568 119 790 625} type Double
+      xywh {803 90 790 625} type Double
       code0 {\#include "avtk_helpers.h"} visible
     } {
       Fl_Box bg_left {
@@ -58,12 +58,12 @@ lopFilter->set_active(false);}
         code0 {\#include "avtk_button.h"}
         class AvtkButton
       }
-      Fl_Box lowButtn {
+      Fl_Box lightbtn {
         label lowButton
         callback {cout << o->label << endl;}
         xywh {34 355 100 30} box UP_BOX
-        code0 {\#include "avtk_button.h"}
-        class AvtkButton
+        code0 {\#include "avtk_light_button.h"}
+        class AvtkLightButton
       }
       Fl_Dial {} {
         label testing
@@ -118,7 +118,8 @@ lopFilter->set_active(false);}
 smallDial->value( o->value() );
 hipFilter->value( 1.f - o->value() );
 lfo->value( o->value() );
-adsr->value( o->value() );}
+adsr->value( o->value() );
+lightbtn->value( o->value() + 0.5 );} selected
         xywh {200 445 115 115} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
@@ -136,7 +137,7 @@ bigDial->value( f );}
       }
       Fl_Dial {} {
         label testing
-        callback {cout << o->label << " " << v << endl;} selected
+        callback {cout << o->label << " " << v << endl;}
         xywh {280 260 35 35} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial

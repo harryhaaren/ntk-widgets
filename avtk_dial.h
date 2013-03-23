@@ -2,6 +2,7 @@
 #ifndef AVTK_DIAL_H
 #define AVTK_DIAL_H
 
+#include <FL/Fl_Dial.H>
 #include <FL/Fl_Slider.H>
 
 class AvtkDial : public Fl_Slider

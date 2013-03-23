@@ -8,7 +8,7 @@ class AvtkTest {open
   } {
     Fl_Window {} {
       label {Avtk Showcase} open
-      xywh {803 90 790 625} type Double
+      xywh {784 42 790 625} type Double
       code0 {\#include "avtk_helpers.h"} visible
     } {
       Fl_Box bg_left {
@@ -153,15 +153,14 @@ bigDial->value( f );}
         label lopFilter
         callback {cout << o->label << endl;}
         xywh {25 515 115 65} box UP_BOX
-        code0 {\#include "avtk_filter_lowpass.h"}
-        class AvtkFilterLowpass
+        class AvtkFiltergraph
       }
       Fl_Dial hipFilter {
-        label hipFilter
-        callback {cout << o->label << endl;}
+        label HipFilter
+        callback {cout << o->label << endl;} selected
         xywh {25 445 115 65} type Line box UP_BOX labeltype NO_LABEL
-        code0 {\#include "avtk_filter_highpass.h"}
-        class AvtkFilterHighpass
+        code0 {hipFilter->setType(1);}
+        class AvtkFiltergraph
       }
       Fl_Box opengl {
         label openGL
@@ -205,14 +204,15 @@ bigDial->value( f );}
       }
       Fl_Box filgraph2 {
         label LFO
-        callback {cout << "lfo" << endl;} selected
+        callback {cout << "lfo" << endl;}
         xywh {502 507 115 78} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_lfo.h"}
         code1 {filgraph2->setType(1);}
         class AvtkFiltergraph
       }
     }
-    code {Fl::add_timeout(0.01, &AvtkOpenGL::static_update, opengl );
+    code {//hipFilter->setType( AvtkFiltergraph::FILTER_HIGHPASS );
+Fl::add_timeout(0.01, &AvtkOpenGL::static_update, opengl );
 w->show();} {}
   }
 } 

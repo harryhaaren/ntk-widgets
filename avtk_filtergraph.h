@@ -26,7 +26,7 @@ class AvtkFiltergraph : public Fl_Slider
     AvtkFiltergraph(int _x, int _y, int _w, int _h, const char *_label = 0, Type _type = FILTER_LOWPASS):
         Fl_Slider(_x, _y, _w, _h, _label)
     {
-      type = _type;
+      graphType = _type;
       
       x = _x;
       y = _y;
@@ -44,11 +44,11 @@ class AvtkFiltergraph : public Fl_Slider
     
     void setType(Type t)
     {
-      type = t;
+      graphType = t;
       redraw();
     }
     
-    Type type;
+    Type graphType;
     bool active;
     bool highlight;
     int x, y, w, h;
@@ -106,7 +106,7 @@ class AvtkFiltergraph : public Fl_Slider
         cairo_stroke(cr);
         cairo_set_dash ( cr, dashes, 0, 0.0);
         
-        switch( type )
+        switch( graphType )
         {
           case FILTER_LOWPASS:    drawLowpass(cr);      break;
           case FILTER_HIGHPASS:   drawHighpass(cr);     break;

@@ -318,7 +318,7 @@ class AvtkFiltergraph : public Fl_Slider
       // draw the cutoff line:
       float cutoff = 0.2 + value() * 0.8;
       
-      float Q = 0.3 + ( bandwidth * 0.7);
+      float Q = 0.3 + ( (1-bandwidth) * 0.7);
       
       // spacer amount
       float spc = w/10.f * Q;
@@ -367,7 +367,7 @@ class AvtkFiltergraph : public Fl_Slider
       // draw the cutoff line:
       float cutoff = value() * 0.8;
       
-      float Q = 0.3 + ( bandwidth * 0.7);
+      float Q = 0.3 + ( (1-bandwidth) * 0.7);
       
       // spacer amount
       float spc = w/10.f * Q;

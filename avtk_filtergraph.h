@@ -249,7 +249,7 @@ class AvtkFiltergraph : public Fl_Slider
     void drawBandpass(cairo_t* cr)
     {
       // draw the cutoff line:
-      float cutoff = 0.9 - (value()*0.8);
+      float cutoff = value();
       
       // move to bottom right
       cairo_move_to( cr, x, y + h - 2 );

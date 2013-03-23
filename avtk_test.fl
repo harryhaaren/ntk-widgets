@@ -8,7 +8,7 @@ class AvtkTest {open
   } {
     Fl_Window {} {
       label {Avtk Showcase} open
-      xywh {784 42 790 625} type Double
+      xywh {650 97 790 625} type Double
       code0 {\#include "avtk_helpers.h"} visible
     } {
       Fl_Box bg_left {
@@ -37,7 +37,7 @@ class AvtkTest {open
       }
       Fl_Box bg_r_low {
         label {Dials (various sizes)}
-        xywh {165 236 180 340} box UP_BOX
+        xywh {165 235 180 356} box UP_BOX
         code0 {\#include "avtk_background.h"}
         class AvtkBackground
       }
@@ -95,14 +95,14 @@ lopFilter->set_active(false);}
       Fl_Dial {} {
         label testing
         callback {cout << o->label << " " << v << endl;}
-        xywh {245 365 90 75} box UP_BOX labeltype NO_LABEL
+        xywh {245 375 90 75} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }
       Fl_Dial dial_low3 {
         label testing
         callback {cout << o->label << " " << v << endl;}
-        xywh {175 364 60 61} box UP_BOX labeltype NO_LABEL
+        xywh {175 374 60 61} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }
@@ -120,7 +120,7 @@ hipFilter->value( 1.f - o->value() );
 lfo->value( o->value() );
 adsr->value( o->value() );
 lightbtn->value( o->value() + 0.5 );}
-        xywh {200 445 115 115} box UP_BOX labeltype NO_LABEL
+        xywh {200 460 115 115} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }
@@ -157,9 +157,9 @@ bigDial->value( f );}
       }
       Fl_Dial hipFilter {
         label HipFilter
-        callback {cout << o->label << endl;} selected
+        callback {cout << o->label << endl;}
         xywh {25 445 115 65} type Line box UP_BOX labeltype NO_LABEL
-        code0 {hipFilter->setType(2);}
+        code0 {hipFilter->setType(1);}
         class AvtkFiltergraph
       }
       Fl_Box opengl {
@@ -197,9 +197,10 @@ bigDial->value( f );}
       }
       Fl_Box filgraph {
         label Filtergraph
-        callback {cout << "filtergraph " << o->value() << endl;}
+        callback {cout << "filtergraph " << o->value() << endl;} selected
         xywh {502 427 115 71} box UP_BOX labeltype NO_LABEL
         code0 {\#include "avtk_filtergraph.h"}
+        code1 {filgraph->setType(2);}
         class AvtkFiltergraph
       }
       Fl_Box filgraph2 {
@@ -211,8 +212,7 @@ bigDial->value( f );}
         class AvtkFiltergraph
       }
     }
-    code {//hipFilter->setType( AvtkFiltergraph::FILTER_HIGHPASS );
-Fl::add_timeout(0.01, &AvtkOpenGL::static_update, opengl );
+    code {Fl::add_timeout(0.01, &AvtkOpenGL::static_update, opengl );
 w->show();} {}
   }
 } 

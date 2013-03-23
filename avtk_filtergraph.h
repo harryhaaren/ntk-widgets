@@ -175,7 +175,7 @@ class AvtkFiltergraph : public Fl_Slider
               float valX = value();
               valX -= deltaX / 100.f;
               float valY = gain;
-              valY -= deltaY / 100.f;
+              valY += deltaY / 100.f;
               
               if ( valX > 1.0 ) valX = 1.0;
               if ( valX < 0.0 ) valX = 0.0;
@@ -323,7 +323,7 @@ class AvtkFiltergraph : public Fl_Slider
       // spacer amount
       float spc = w/10.f * Q;
       
-      float yGain = (gain-0.5) * (h / 1.5);
+      float yGain = ((1-gain)-0.5) * (h / 1.5);
       
       // move to bottom right, middle right, middle cutoff
       cairo_move_to( cr, x + w, y + h );
@@ -372,7 +372,7 @@ class AvtkFiltergraph : public Fl_Slider
       // spacer amount
       float spc = w/10.f * Q;
       
-      float yGain = (gain-0.5) * (h / 1.5);
+      float yGain = ((1-gain)-0.5) * (h / 1.5);
       
       // move to bottom right, middle right, middle cutoff
       cairo_move_to( cr, x, y + h );

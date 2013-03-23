@@ -94,7 +94,7 @@ class AvtkLightButton : public Fl_Button
           return 1;
         case FL_PUSH:
           highlight = 1;
-          redraw();
+          do_callback();
           return 1;
         case FL_DRAG: {
             int t = Fl::event_inside(this);

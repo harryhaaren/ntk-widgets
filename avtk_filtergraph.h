@@ -47,7 +47,7 @@ class AvtkFiltergraph : public Fl_Slider
     }
     
     void setGain(float g) {gain = g; redraw();}
-    void getBandwidth(float b) {bandwidth = b; redraw();}
+    void setBandwidth(float b) {bandwidth = b; redraw();}
     float getGain() {return gain;}
     float getBandwidth() {return bandwidth;}
     

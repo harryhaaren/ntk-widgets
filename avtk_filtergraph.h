@@ -252,7 +252,7 @@ class AvtkFiltergraph : public Fl_Slider
       float cutoff = value();
       
       // move to bottom right
-      cairo_move_to( cr, x, y + h - 2 );
+      cairo_move_to( cr, x, y + h );
       
       // spacer amount
       float spc = w/10.f;
@@ -263,9 +263,9 @@ class AvtkFiltergraph : public Fl_Slider
       int cp2 = x + w*cutoff - 1*spc;
       if (cp2 < x  ) cp2 = x;
       
-      cairo_curve_to( cr, cp1         , y + h -2    ,  // control point 1
+      cairo_curve_to( cr, cp1         , y + h       ,  // control point 1
                           cp2         , y +(h * 0.3),  // control point 2
-                          x + w*cutoff, y+ (h/ 3.5)   ); // end of curve 1
+                          x + w*cutoff, y+ (h/ 3.5) ); // end of curve 1
       
       cp1 = x + w*cutoff + 1*spc;
       if (cp1 > x + w) cp1 = x + w;
@@ -274,11 +274,11 @@ class AvtkFiltergraph : public Fl_Slider
       if (cp2 > x + w - 2) cp2 = x + w - 2;
       
       cairo_curve_to( cr, cp1    , y +(h * 0.3), // control point 1
-                          cp2    , y + h -2    , // control point 2
-                          x +  w , y + h - 2  ); // end of curve 1
+                          cp2    , y + h       , // control point 2
+                          x +  w , y + h      ); // end of curve 1
       
       
-      cairo_line_to( cr, x + w, y + h - 2);
+      cairo_line_to( cr, x + w, y + h );
       
       if ( active )
         cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 0.2 );

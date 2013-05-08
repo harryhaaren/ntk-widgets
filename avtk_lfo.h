@@ -1,4 +1,7 @@
 
+#ifndef AVTK_LFO_H
+#define AVTK_LFO_H
+
 #include <FL/Fl_Button.H>
 
 class AvtkLFO : public Fl_Slider
@@ -206,3 +209,7 @@ class AvtkLFO : public Fl_Slider
       }
     }
 };
+
+
+#endif // AVTK_LFO_H
+

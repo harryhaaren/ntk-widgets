@@ -45,6 +45,8 @@ class AvtkDial : public Fl_Slider
     {
       if (damage() & FL_DAMAGE_ALL)
       {
+        draw_label();
+        
         cairo_t *cr = Fl::cairo_cc();
         
         cairo_save( cr );
@@ -71,7 +73,7 @@ class AvtkDial : public Fl_Slider
         
         cairo_restore( cr );
         
-        draw_label();
+        
       }
     }
     

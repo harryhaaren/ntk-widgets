@@ -25,10 +25,13 @@
 
 #include <FL/Fl_Button.H>
 
-class AvtkButton : public Fl_Button
+namespace Avtk
+{
+
+class Button : public Fl_Button
 {
   public:
-    AvtkButton(int _x, int _y, int _w, int _h, const char *_label):
+    Button(int _x, int _y, int _w, int _h, const char *_label):
         Fl_Button(_x, _y, _w, _h, _label)
     {
       x = _x;
@@ -132,6 +135,8 @@ class AvtkButton : public Fl_Button
       }
     }
 };
+
+} // Avtk
 
 #endif // AVTK_BUTTON_H
 

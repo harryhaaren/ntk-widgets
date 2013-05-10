@@ -28,10 +28,13 @@
 #include <FL/gl.h>
 #include <FL/Fl_Gl_Window.H>
 
-class AvtkOpenGL : public Fl_Gl_Window
+namespace Avtk
+{
+
+class OpenGL : public Fl_Gl_Window
 {
   public:
-    AvtkOpenGL(int _x,int _y,int _w,int _h,const char *l=0):
+    OpenGL(int _x,int _y,int _w,int _h,const char *l=0):
         Fl_Gl_Window(_x,_y,_w,_h,l)
     {
       overlay_sides = 3;
@@ -52,10 +55,10 @@ class AvtkOpenGL : public Fl_Gl_Window
     
     static void static_update(void* inst)
     {
-      AvtkOpenGL* instance = (AvtkOpenGL*)inst;
+      OpenGL* instance = (OpenGL*)inst;
       instance->offset += 0.07;
       
-      Fl::repeat_timeout( 1 / 60.f, &AvtkOpenGL::static_update, inst);
+      Fl::repeat_timeout( 1 / 60.f, &OpenGL::static_update, inst);
       
       instance->damage(FL_DAMAGE_ALL);
     }
@@ -94,5 +97,7 @@ class AvtkOpenGL : public Fl_Gl_Window
       
     }
 };
+
+} // Avtk
 
 #endif

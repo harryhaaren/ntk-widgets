@@ -28,10 +28,13 @@
 #include <valarray>
 #include <string>
 
-class AvtkBackground : public Fl_Widget
+namespace Avtk
+{
+
+class Background : public Fl_Widget
 {
   public:
-    AvtkBackground(int _x, int _y, int _w, int _h, const char *_label):
+    Background(int _x, int _y, int _w, int _h, const char *_label):
         Fl_Widget(_x, _y, _w, _h, _label)
     {
       x = _x;
@@ -157,6 +160,8 @@ class AvtkBackground : public Fl_Widget
       }
     }
 };
+
+} // Avtk
 
 #endif // AVTK_BACKGROUND_H
 

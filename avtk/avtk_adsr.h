@@ -25,10 +25,13 @@
 
 #include <FL/Fl_Button.H>
 
-class AvtkADSR : public Fl_Slider
+namespace Avtk
+{
+
+class ADSR : public Fl_Slider
 {
   public:
-    AvtkADSR(int _x, int _y, int _w, int _h, const char *_label =0):
+    ADSR(int _x, int _y, int _w, int _h, const char *_label =0):
         Fl_Slider(_x, _y, _w, _h, _label)
     {
       x = _x;
@@ -176,6 +179,8 @@ class AvtkADSR : public Fl_Slider
       }
     }
 };
+
+} // Avtk
 
 #endif // AVTK_ADSR_H
 

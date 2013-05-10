@@ -25,10 +25,13 @@
 
 #include <FL/Fl_Button.H>
 
-class AvtkLightButton : public Fl_Button
+namespace Avtk
+{
+
+class LightButton : public Fl_Button
 {
   public:
-    AvtkLightButton(int _x, int _y, int _w, int _h, const char *_label):
+    LightButton(int _x, int _y, int _w, int _h, const char *_label):
         Fl_Button(_x, _y, _w, _h, _label)
     {
       x = _x;
@@ -147,6 +150,8 @@ class AvtkLightButton : public Fl_Button
       }
     }
 };
+
+} // Avtk
 
 #endif // AVTK_LIGHT_BUTTON_H
 

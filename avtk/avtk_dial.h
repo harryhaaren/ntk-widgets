@@ -26,10 +26,13 @@
 #include <FL/Fl_Dial.H>
 #include <FL/Fl_Slider.H>
 
-class AvtkDial : public Fl_Slider
+namespace Avtk
+{
+
+class Dial : public Fl_Slider
 {
   public:
-    AvtkDial(int _x, int _y, int _w, int _h, const char* _label=0):
+    Dial(int _x, int _y, int _w, int _h, const char* _label=0):
         Fl_Slider(_x, _y, _w, _h, _label)
     {
       x = _x;
@@ -159,5 +162,7 @@ class AvtkDial : public Fl_Slider
       }
     }
 };
+
+} // Avtk
 
 #endif // AVTK_DIAL_H

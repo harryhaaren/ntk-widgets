@@ -25,10 +25,12 @@
 
 #include <FL/Fl_Slider.H>
 
-class AvtkLFO : public Fl_Slider
+namespace Avtk {
+
+class LFO : public Fl_Slider
 {
   public:
-    AvtkLFO(int _x, int _y, int _w, int _h, const char *_label =0):
+    LFO(int _x, int _y, int _w, int _h, const char *_label =0):
         Fl_Slider(_x, _y, _w, _h, _label)
     {
       x = _x;
@@ -231,6 +233,7 @@ class AvtkLFO : public Fl_Slider
     }
 };
 
+} // Avtk
 
 #endif // AVTK_LFO_H
 

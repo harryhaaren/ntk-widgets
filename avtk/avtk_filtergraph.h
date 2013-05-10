@@ -31,7 +31,10 @@
 #include <valarray>
 #include <string>
 
-class AvtkFiltergraph : public Fl_Slider
+namespace Avtk
+{
+  
+class Filtergraph : public Fl_Slider
 {
   public:
     enum Type {
@@ -44,7 +47,7 @@ class AvtkFiltergraph : public Fl_Slider
       //FILTER_PEAK,
     };
     
-    AvtkFiltergraph(int _x, int _y, int _w, int _h, const char *_label = 0, Type _type = FILTER_LOWPASS):
+    Filtergraph(int _x, int _y, int _w, int _h, const char *_label = 0, Type _type = FILTER_LOWPASS):
         Fl_Slider(_x, _y, _w, _h, _label)
     {
       graphType = _type;
@@ -434,5 +437,7 @@ class AvtkFiltergraph : public Fl_Slider
     
     
 };
+
+} // Avtk
 
 #endif // AVTK_FILTERGRAPH_H

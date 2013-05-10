@@ -23,7 +23,7 @@
 #ifndef AVTK_LFO_H
 #define AVTK_LFO_H
 
-#include <FL/Fl_Button.H>
+#include <FL/Fl_Slider.H>
 
 class AvtkLFO : public Fl_Slider
 {

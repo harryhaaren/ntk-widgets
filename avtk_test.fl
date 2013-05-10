@@ -8,49 +8,43 @@ class AvtkTest {open
   } {
     Fl_Window {} {
       label {Avtk Showcase} open
-      xywh {1081 210 790 600} type Double
-      code0 {\#include "avtk_helpers.h"} visible
+      xywh {489 199 790 600} type Double
+      code0 {\#include "avtk.h"} visible
     } {
       Fl_Box bg_left {
         label Buttons
         xywh {15 235 135 170} box UP_BOX
-        code0 {\#include "avtk_background.h"}
         class AvtkBackground
       }
       Fl_Box bg_filters {
         label Filters
         xywh {15 420 135 170} box UP_BOX
-        code0 {\#include "avtk_background.h"}
         class AvtkBackground
       }
       Fl_Box bg_mid {
         label {Waveform Display}
         xywh {15 100 600 120} box UP_BOX
-        code0 {\#include "avtk_background.h"}
         class AvtkBackground
       }
       Fl_Box image {
         label {logo.png}
         callback {cout << "image clicked" << endl;
-system("xdg-open http://www.openavproductions.com/avtk");} selected
+system("xdg-open http://www.openavproductions.com/avtk");}
         xywh {0 -1 790 97} labeltype EMBOSSED_LABEL when 3
-        code0 {\#include "avtk_image.h"}
         code1 {\#include <stdio.h>}
         class AvtkImage
       }
       Fl_Box bg_r_low {
         label {Dials (various sizes)}
         xywh {165 235 180 356} box UP_BOX
-        code0 {\#include "avtk_background.h"}
         class AvtkBackground
       }
       Fl_Box highButtn {
         label Activate
         callback {cout << o->label << endl;
 hipFilter->set_active(true);
-lopFilter->set_active(true);}
+lopFilter->set_active(true);} selected
         xywh {34 275 100 30} box UP_BOX
-        code0 {\#include "avtk_button.h"}
         class AvtkButton
       }
       Fl_Box midButtn {
@@ -58,61 +52,52 @@ lopFilter->set_active(true);}
         callback {hipFilter->set_active(false);
 lopFilter->set_active(false);}
         xywh {34 315 100 30} box UP_BOX
-        code0 {\#include "avtk_button.h"}
         class AvtkButton
       }
       Fl_Box lightbtn {
         label lowButton
         callback {cout << o->label << endl;}
         xywh {34 355 100 30} box UP_BOX
-        code0 {\#include "avtk_light_button.h"}
         class AvtkLightButton
       }
       Fl_Dial {} {
         label testing
         callback {cout << o->label << " " << v << endl;}
         xywh {176 312 39 38} box UP_BOX labeltype NO_LABEL
-        code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }
       Fl_Box waveform {
         label waveform
         xywh {25 125 580 85}
-        code0 {\#include "avtk_waveform.h"}
         class AvtkWaveform
       }
       Fl_Dial {} {
         label testing
         callback {cout << o->label << " " << v << endl;}
         xywh {280 312 50 50} box UP_BOX labeltype NO_LABEL
-        code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }
       Fl_Dial {} {
         label testing
         callback {cout << o->label << " " << v << endl;}
         xywh {228 312 42 43} box UP_BOX labeltype NO_LABEL
-        code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }
       Fl_Dial {} {
         label testing
         callback {cout << o->label << " " << v << endl;}
         xywh {245 375 90 75} box UP_BOX labeltype NO_LABEL
-        code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }
       Fl_Dial dial_low3 {
         label testing
         callback {cout << o->label << " " << v << endl;}
         xywh {175 374 60 61} box UP_BOX labeltype NO_LABEL
-        code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }
       Fl_Box openGlBg {
         label OpenGL
         xywh {360 236 265 159} box UP_BOX
-        code0 {\#include "avtk_background.h"}
         class AvtkBackground
       }
       Fl_Dial bigDial {
@@ -125,7 +110,6 @@ adsr->value( o->value() );
 lightbtn->value( o->value() + 0.5 );
 filgraph2->value( o->value() );}
         xywh {200 460 115 115} box UP_BOX labeltype NO_LABEL
-        code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }
       Fl_Dial smallDial {
@@ -136,21 +120,18 @@ lopFilter->value( f );
 hipFilter->value( 1.f - f );
 bigDial->value( f );}
         xywh {176 260 29 25} box UP_BOX labeltype NO_LABEL
-        code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }
       Fl_Dial {} {
         label testing
         callback {cout << o->label << " " << v << endl;}
         xywh {280 260 35 35} box UP_BOX labeltype NO_LABEL
-        code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }
       Fl_Dial {} {
         label testing
         callback {cout << o->label << " " << v << endl;}
         xywh {228 260 32 30} box UP_BOX labeltype NO_LABEL
-        code0 {\#include "avtk_dial.h"}
         class AvtkDial
       }
       Fl_Box lopFilter {
@@ -170,40 +151,34 @@ bigDial->value( f );}
         label openGL
         callback {cout << "OpenGL" << endl;}
         xywh {361 257 263 137} box UP_BOX
-        code0 {\#include "avtk_opengl.h"}
         class AvtkOpenGL
       }
       Fl_Box {} {
         label ADSR
         xywh {360 401 130 193} box UP_BOX
-        code0 {\#include "avtk_background.h"}
         class AvtkBackground
       }
       Fl_Box adsr {
         label Adsr
         callback {cout << "adsr" << endl;}
         xywh {367 427 115 71} box UP_BOX labeltype NO_LABEL
-        code0 {\#include "avtk_adsr.h"}
         class AvtkADSR
       }
       Fl_Box lfo {
         label LFO
         callback {cout << "lfo" << endl;}
         xywh {367 507 115 78} box UP_BOX labeltype NO_LABEL
-        code0 {\#include "avtk_lfo.h"}
         class AvtkLFO
       }
       Fl_Box {} {
         label Filtergraph
         xywh {495 401 130 193} box UP_BOX
-        code0 {\#include "avtk_background.h"}
         class AvtkBackground
       }
       Fl_Box filgraph {
         label Filtergraph
         callback {cout << "filtergraph " << o->value() << endl;}
         xywh {502 427 115 71} box UP_BOX labeltype NO_LABEL
-        code0 {\#include "avtk_filtergraph.h"}
         code1 {filgraph->setType(4);}
         class AvtkFiltergraph
       }
@@ -211,7 +186,6 @@ bigDial->value( f );}
         label LFO
         callback {cout << "lfo" << endl;}
         xywh {502 507 115 78} box UP_BOX labeltype NO_LABEL
-        code0 {\#include "avtk_lfo.h"}
         code1 {filgraph2->setType(3);}
         class AvtkFiltergraph
       }

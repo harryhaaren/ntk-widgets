@@ -23,6 +23,8 @@
 #ifndef AVTK_OPENGL_H
 #define AVTK_OPENGL_H
 
+#include <cmath>
+
 #include <FL/gl.h>
 #include <FL/Fl_Gl_Window.H>
 

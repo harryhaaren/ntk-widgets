@@ -154,9 +154,12 @@ class Filtergraph : public Fl_Slider
             cout << "Filtergraph: unknown filter type selected!" << endl;
         }
         
-        // stroke rim
+        // stroke outline
         cairo_rectangle(cr, x, y, w, h);
-        cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 1 );
+        if ( active )
+          cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 1 );
+        else
+          cairo_set_source_rgba( cr,  66 / 255.f,  66 / 255.f ,  66 / 255.f , 1 );
         cairo_stroke( cr );
         
         

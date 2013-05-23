@@ -31,6 +31,7 @@
 #include "avtk/avtk_opengl.h"
 #include "avtk/avtk_reverb.h"
 #include "avtk/avtk_button.h"
+#include "avtk/avtk_volume.h"
 #include "avtk/avtk_waveform.h"
 #include "avtk/avtk_compressor.h"
 #include "avtk/avtk_oscillator.h"

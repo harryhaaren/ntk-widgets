@@ -47,11 +47,9 @@ class Compressor : public Fl_Slider
       //FILTER_PEAK,
     };
     
-    Compressor(int _x, int _y, int _w, int _h, const char *_label = 0, Type _type = FILTER_LOWPASS):
+    Compressor(int _x, int _y, int _w, int _h, const char *_label = 0):
         Fl_Slider(_x, _y, _w, _h, _label)
     {
-      graphType = _type;
-      
       x = _x;
       y = _y;
       w = _w;
@@ -66,22 +64,15 @@ class Compressor : public Fl_Slider
       active = true;
       highlight = false;
       
-      gain = 0;
-      bandwidth = 0;
+      ratioVal = 0;
+      makeupGain = 0;
+      threshVal = 0;
     }
     
-    void setGain(float g) {gain = g; redraw();}
-    void setBandwidth(float b) {bandwidth = b; redraw();}
-    float getGain() {return gain;}
-    float getBandwidth() {return bandwidth;}
+    void threshold(float t) {threshVal  = t; redraw();}
+    void makeup   (float m) {makeupGain = m; redraw();}
+    void ratio    (float r) {ratioVal   = r; redraw();}
     
-    void setType(Type t)
-    {
-      graphType = t;
-      redraw();
-    }
-    
-    Type graphType;
     bool active;
     bool highlight;
     int x, y, w, h;
@@ -91,8 +82,9 @@ class Compressor : public Fl_Slider
     int mouseClickedY;
     bool mouseClicked;
     
-    float gain;
-    float bandwidth;
+    float threshVal;
+    float makeupGain;
+    float ratioVal;
     
     void set_active(bool a)
     {
@@ -138,16 +130,10 @@ class Compressor : public Fl_Slider
           cairo_line_to( cr, x + w, y + ((h / 4.f)*i) );
         }
         
-        
         cairo_set_source_rgba( cr,  66 / 255.f,  66 / 255.f ,  66 / 255.f , 0.5 );
         cairo_stroke(cr);
         cairo_set_dash ( cr, dashes, 0, 0.0);
         
-        
-        
-        float thresh = value();
-        float makeup = value();
-        float ratio  = value();
         
         // draw the cutoff line:
         // move to bottom left, draw line to middle left
@@ -155,34 +141,34 @@ class Compressor : public Fl_Slider
         
         cairo_line_to( cr, x , y + (h*0.47));
         
-        
+        float makeupGainPx = makeupGain * h * 0.5;
         
         float xDist = 0.1 * w;
         float yDist = 0.1 * h;
         
-        float xThresh = x + (w * 0.25) + (w*0.5) * thresh;
-        float yThresh = y + (h * 0.25) + (h*0.5)*(1-thresh);
+        float xThresh = x + (w * 0.25) + (w*0.5) * threshVal;
+        float yThresh = y + (h * 0.25) + (h*0.5)*(1-threshVal);
         
         float startx = xThresh - xDist;
         float starty = yThresh + yDist;
         
         float cp1x = xThresh;
-        float cp1y = yThresh - makeup;
+        float cp1y = yThresh - makeupGainPx;
         
         float cp2x = xThresh;
-        float cp2y = yThresh - makeup;
+        float cp2y = yThresh - makeupGainPx;
         
         float endx = xThresh + (xDist*1.2);
-        float endy = yThresh - (yDist*1.2)*(1-ratio) - makeup;
+        float endy = yThresh - (yDist*1.2)*(1-ratioVal) - makeupGainPx;
         
         // move to bottom left, draw line to middle left
-        cairo_move_to( cr, x , y + h - makeup );
-        cairo_line_to( cr, startx, starty - makeup );
+        cairo_move_to( cr, x , y + h - makeupGainPx );
+        cairo_line_to( cr, startx, starty - makeupGainPx );
         
         // draw curve
         cairo_curve_to( cr, cp1x, cp1y, cp2x, cp2y, endx, endy );
         
-        cairo_line_to( cr, x + w, y + (h/4)*ratio + (h)*(1-thresh)*(0.5*ratio) - makeup );
+        cairo_line_to( cr, x + w, y + (h/4)*ratioVal + (h)*(1-threshVal)*(0.5*ratioVal) - makeupGainPx );
         
         cairo_line_to( cr, x + w, y + h );
         cairo_line_to( cr, x , y + h );
@@ -249,7 +235,7 @@ class Compressor : public Fl_Slider
               
               float valX = value();
               valX -= deltaX / 100.f;
-              float valY = gain;
+              float valY = makeupGain;
               valY += deltaY / 100.f;
               
               if ( valX > 1.0 ) valX = 1.0;
@@ -260,7 +246,7 @@ class Compressor : public Fl_Slider
               
               //handle_drag( value + deltaY );
               set_value( valX );
-              gain = valY;
+              makeupGain = valY;
               
               mouseClickedX = Fl::event_x();
               mouseClickedY = Fl::event_y();

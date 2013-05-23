@@ -69,11 +69,12 @@ class Dial : public Fl_Slider
     {
       if (damage() & FL_DAMAGE_ALL)
       {
-        draw_label();
-        
         cairo_t *cr = Fl::cairo_cc();
         
         cairo_save( cr );
+        
+        // label behind value
+        draw_label();
         
         cairo_set_line_join(cr, CAIRO_LINE_JOIN_ROUND);
         cairo_set_line_cap(cr, CAIRO_LINE_CAP_ROUND);
@@ -81,18 +82,26 @@ class Dial : public Fl_Slider
         cairo_set_line_width(cr, lineWidth-0.2);
         cairo_move_to( cr, x+w/2,y+h/2);
         cairo_line_to( cr, x+w/2,y+h/2);
-        cairo_set_source_rgba(cr, 0.1, 0.1, 0.1, 0 );
+        cairo_set_source_rgba(cr, 0.5, 0.5, 0.5, 0.4 );
+        
+        // draw dash guide
+        double dashes[2];
+        cairo_set_line_width(cr, 1.7);
+        dashes[0] = 3.0;
+        dashes[1] = 3.0;
+        cairo_set_dash ( cr, dashes, 2, 0.0);
         cairo_stroke(cr);
         
         cairo_arc(cr, x+w/2,y+h/2, radius, 2.46, 0.75 );
-        cairo_set_source_rgb(cr, 0.1, 0.1, 0.1 );
+        //cairo_set_source_rgba(cr, 1.0, 1.0, 1.0, 0.4 );
         cairo_stroke(cr);
+        cairo_set_dash ( cr, dashes, 0, 0.0);
         
         float angle = 2.46 + ( 4.54 * value() );
         cairo_set_line_width(cr, lineWidth);
         cairo_arc(cr, x+w/2,y+h/2, radius, 2.46, angle );
         cairo_line_to(cr, x+w/2,y+h/2);
-        cairo_set_source_rgba(cr, 1.0, 0.48,   0, 0.8);
+        cairo_set_source_rgba(cr, 1.0, 0.48,   0, 1.0);
         cairo_stroke(cr);
         
         cairo_restore( cr );

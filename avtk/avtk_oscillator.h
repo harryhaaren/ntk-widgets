@@ -20,17 +20,18 @@
  */
 
 
-#ifndef AVTK_LFO_H
-#define AVTK_LFO_H
+#ifndef AVTK_OSCILLATOR_H
+#define AVTK_OSCILLATOR_H
 
 #include <FL/Fl_Slider.H>
 
-namespace Avtk {
+namespace Avtk
+{
 
-class LFO : public Fl_Slider
+class Oscillator : public Fl_Slider
 {
   public:
-    LFO(int _x, int _y, int _w, int _h, const char *_label =0):
+    Oscillator(int _x, int _y, int _w, int _h, const char *_label =0):
         Fl_Slider(_x, _y, _w, _h, _label)
     {
       x = _x;
@@ -57,23 +58,18 @@ class LFO : public Fl_Slider
         
         cairo_save( cr );
         
-
         // WAVEFORM graph
         cairo_rectangle( cr, x, y, w, h );
-        cairo_set_source_rgb( cr,28 / 255.f,  28 / 255.f ,  28 / 255.f  );
-        cairo_fill(cr);
+        cairo_set_source_rgb( cr, 28 / 255.f,  28 / 255.f ,  28 / 255.f );
+        cairo_fill( cr );
         
-        
-        // set up dashed lines, 1 px off, 1 px on
-        double dashes[1];
+        // draw guides
+        double dashes[2];
         dashes[0] = 2.0;
-        
-        cairo_set_dash ( cr, dashes, 1, 0.0);
+        dashes[1] = 2.0;
+        cairo_set_dash ( cr, dashes, 2, 0.0);
         cairo_set_line_width( cr, 1.0);
-        
-        // loop over each 2nd line, drawing dots
-        cairo_set_line_width(cr, 1.0);
-        cairo_set_source_rgb(cr, 0.4,0.4,0.4);
+        cairo_set_source_rgb ( cr, 0.4,0.4,0.4);
         for ( int i = 0; i < 4; i++ )
         {
           cairo_move_to( cr, x + ((w / 4.f)*i), y );
@@ -81,93 +77,101 @@ class LFO : public Fl_Slider
         }
         for ( int i = 0; i < 4; i++ )
         {
-          cairo_move_to( cr, x    , y + ((h / 4.f)*i) );
-          cairo_line_to( cr, x + w, y + ((h / 4.f)*i) );
+          cairo_move_to( cr, x    , y + (( h / 4.f)*i) );
+          cairo_line_to( cr, x + w, y + (( h / 4.f)*i) );
         }
+        cairo_stroke( cr );
+        cairo_set_dash ( cr, dashes, 0, 0.0); // disable dashes: 0 dashes
         
-        cairo_set_source_rgba( cr,  66 / 255.f,  66 / 255.f ,  66 / 255.f , 0.5 );
-        cairo_stroke(cr);
-        cairo_set_dash ( cr, dashes, 0, 0.0);
-        
-        
-      
-      // ADSR graph plotting
-        float wavetableMod = value();
-        float lfoAmp = value();
-        float volume = value();
-        
-        
-        
+        /*
         // Waveform data: WavetableMod
         {
-          int drawX = x;
-          int drawY = y + h - 2;
+          int drawX = X;
+          int drawY = y + 79;
           
-          cairo_set_line_width(cr, 3.3);
-          cairo_rectangle( cr, x, y + h - 2, w * wavetableMod, 1);
-          cairo_set_source_rgba( cr, 25 / 255.f, 255 / 255.f ,   0 / 255.f , 0.7 );
-          cairo_stroke( cr );
+          cairo_rectangle(drawX, drawY, 138 * values[WAVETABLE1_POS+num], 2);
+          setColour( cr, COLOUR_GREEN_1, 0.9 );
+          cairo_stroke();
         }
+        
         // Waveform data: Volume
         {
-          int drawX = x+w-3;
-          int drawY = y;
+          int drawX = X+135;
+          int drawY = Y;
           
           float volume = 0.7;
-          cairo_set_line_width(cr, 2.4);
-          cairo_rectangle( cr, drawX, drawY+ h*(1-lfoAmp), 1,  (h*lfoAmp) ); 
-          cairo_set_source_rgba( cr, 255 / 255.f, 104 / 255.f ,   0 / 255.f , 1 );
-          cairo_stroke( cr );
+          cairo_rectangle(drawX, drawY+ 82*(1-values[OSC1_VOL+num]), 2,  (82*values[OSC1_VOL+num]) ); 
+          setColour( cr, COLOUR_PURPLE_1, 1.0 );
+          cairo_stroke();
+        }
+        // graph center circle:
+        {
+          cairo_save();
+          cairo_arc(X + Xs/4.f + (Xs/2.f) * values[WAVETABLE1_POS+num],
+                  y + h/4.f + (Ys/2.f) * (1-values[OSC1_VOL+num]),
+                  7, 0, 6.28 );
+          cairo_set_line_width( 2.0 );
+          setColour( cr, COLOUR_ORANGE_1, 1.0 );
+          cairo_stroke();
+          cairo_restore();
         }
         
+        // Waveform select boxes
+        {
+          /*
+          int drawX = x + 43;
+          int drawY = y - 27;
+          int boxXs= 105;
+          int boxYs=  20;
+          
+          for(int i = 0; i < 5; i++)
+          {
+            cairo_move_to(drawX, drawY+1);
+            cairo_line_to(drawX, drawY+boxYs-1);
+            drawX += 21;
+          }
+          setColour( cr, COLOUR_BLUE_1 );
+          cairo_stroke();
+          * /
+        }
         
-        // sinewave (in graph 1)
-        int x1 = x;
-        int xS = w;
-        int y1 = y;
-        int yS = h;
-        cairo_move_to( cr, x1, y1 + yS / 2 );
+        // Graph outline
+        {
+          cairo_rectangle( X, Y, w, h );
+          setColour( cr, COLOUR_GREY_1 );
+          cairo_set_line_width(1.1);
+          cairo_stroke();
+        }
         
-        int m1x = x1 + xS / 6;
-        int m1y = (y1 + yS / 2) - 48 * lfoAmp;
-        
-        int m2x = x1 + xS / 3;
-        int m2y = m1y;
-        
-        int endX = x1 + xS / 2;
-        int endY = y1 + yS / 2;
-        cairo_curve_to( cr, m1x, m1y, m2x, m2y, endX, endY);
-        
-        int m3x = x1 + 2 * xS / 3;
-        int m3y = y1 + yS / 2.f + ((yS + 7) * 0.5 * lfoAmp);
-        
-        int m4x = x1 + 5 * xS / 6;
-        int m4y = m3y;
-        
-        int end2X = x1 + xS;
-        int end2Y = y1 + yS / 2;
-        cairo_curve_to( cr, m3x, m3y, m4x, m4y, end2X, end2Y);
-        cairo_close_path(cr);
-        
-        if ( true )
-          cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 0.2 );
-        else
-          cairo_set_source_rgba( cr,  66 / 255.f,  66 / 255.f ,  66 / 255.f , 0.5 );
-        cairo_fill(cr);
-        
-        cairo_move_to(cr, x  , y+(h/2));
-        cairo_line_to(cr, x+w, y+(h/2));
-        cairo_set_source_rgba( cr,  66 / 255.f,  66 / 255.f ,  66 / 255.f , 0.7 );
-        cairo_stroke(cr);
-        
-        // redraw curve in blue
-        cairo_move_to( cr, x1, y1 + yS / 2 );
-        cairo_curve_to( cr, m1x, m1y, m2x, m2y, endX, endY);
-        cairo_curve_to( cr, m3x, m3y, m4x, m4y, end2X, end2Y);
-        avtk_stroke_line(cr, true);
+        // Lower select boxes
+        {
+          int drawX = x - 11;
+          int drawY = y + 91;
+          
+          // bg
+          cairo_rectangle(drawX+1, drawY, 159, 17);
+          cairo_set_source_rgb( cr, 28 / 255.f,  28 / 255.f ,  28 / 255.f );
+          cairo_fill_preserve();
+          
+          setColour( cr, COLOUR_BLUE_1 );
+          cairo_set_line_width(0.9);
+          cairo_stroke();
+          
+          /*
+          drawX += 162 / 4.f;
+          for(int i = 0; i < 3; i++)
+          {
+            cairo_move_to(drawX, drawY+1);
+            cairo_line_to(drawX, drawY+17-1);
+            drawX += 162 / 4.f;
+          }
+          setColour( cr, COLOUR_BLUE_1 );
+          cairo_stroke();
+          * /
+        }
+        */
         
         // stroke rim
-        cairo_set_line_width(cr, 1.4);
         cairo_rectangle(cr, x, y, w, h);
         cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 1 );
         cairo_stroke( cr );
@@ -175,7 +179,7 @@ class LFO : public Fl_Slider
         cairo_restore( cr );
         
         draw_label();
-      }
+      }// if DAMAGE
     }
     
     void resize(int X, int Y, int W, int H)
@@ -233,5 +237,5 @@ class LFO : public Fl_Slider
 
 } // Avtk
 
-#endif // AVTK_LFO_H
+#endif // AVTK_OSCILLATOR_H
 

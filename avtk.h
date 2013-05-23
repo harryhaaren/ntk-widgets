@@ -31,6 +31,7 @@
 #include "avtk/avtk_opengl.h"
 #include "avtk/avtk_button.h"
 #include "avtk/avtk_waveform.h"
+#include "avtk/avtk_oscillator.h"
 #include "avtk/avtk_background.h"
 #include "avtk/avtk_filtergraph.h"
 #include "avtk/avtk_light_button.h"

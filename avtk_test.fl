@@ -1,5 +1,5 @@
 # data file for the Fltk User Interface Designer (fluid)
-version 1.0302 
+version 1.0300 
 header_name {.h} 
 code_name {.cxx}
 class AvtkTest {open
@@ -7,8 +7,8 @@ class AvtkTest {open
   Function {AvtkTest()} {open
   } {
     Fl_Window {} {
-      label {Avtk Showcase} open selected
-      xywh {479 85 790 600} type Double
+      label {Avtk Showcase} open
+      xywh {501 150 790 600} type Double
       code0 {\#include "avtk.h"}
       code1 {using namespace Avtk;} visible
     } {
@@ -189,6 +189,12 @@ bigDial->value( f );}
         xywh {502 507 115 78} box UP_BOX labeltype NO_LABEL
         code1 {filgraph2->setType(3);}
         class Filtergraph
+      }
+      Fl_Box oscil {
+        label Oscil
+        callback {cout << "adsr" << endl;} selected
+        xywh {635 429 115 71} box UP_BOX labeltype NO_LABEL
+        class Oscillator
       }
     }
     code {Fl::add_timeout(0.01, &OpenGL::static_update, opengl );

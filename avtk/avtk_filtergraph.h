@@ -156,12 +156,9 @@ class Filtergraph : public Fl_Slider
         
         // stroke outline
         cairo_rectangle(cr, x, y, w, h);
-        if ( active )
-          cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 1 );
-        else
-          cairo_set_source_rgba( cr,  66 / 255.f,  66 / 255.f ,  66 / 255.f , 1 );
+        cairo_set_source_rgba( cr,  126 / 255.f,  126 / 255.f ,  126 / 255.f , 0.8 );
+        cairo_set_line_width(cr, 1.9);
         cairo_stroke( cr );
-        
         
         cairo_restore( cr );
       }
@@ -245,27 +242,26 @@ class Filtergraph : public Fl_Slider
     void drawLowpass(cairo_t* cr)
     {
       // draw the cutoff line:
-        // move to bottom left, draw line to middle left
-        cairo_move_to( cr, x , y + h );
-        cairo_line_to( cr, x , y + (h*0.47));
-        
-        float cutoff = 0.1 + value() * 0.8;
-        
-        // Curve
-        cairo_curve_to( cr, x + w * cutoff    , y+(h*0.5)  ,   // control point 1
-                            x + w * cutoff    , y+(h * 0.0),   // control point 2
-                            x + w * cutoff +10, y+ h       );  // end of curve 1
-        
-        
-        if ( active )
-          cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 0.2 );
-        else
-          cairo_set_source_rgba( cr,  66 / 255.f,  66 / 255.f ,  66 / 255.f , 0.5 );
-        
-        cairo_close_path(cr);
-        cairo_fill_preserve(cr);
-        
-        avtk_stroke_line(cr, true);
+      // move to bottom left, draw line to middle left
+      cairo_move_to( cr, x , y + h );
+      cairo_line_to( cr, x , y + (h*0.47));
+      
+      float cutoff = 0.1 + value() * 0.8;
+      
+      // Curve
+      cairo_curve_to( cr, x + w * cutoff    , y+(h*0.5)  ,   // control point 1
+                          x + w * cutoff    , y+(h * 0.0),   // control point 2
+                          x + w * cutoff +10, y+ h       );  // end of curve 1
+      
+      cairo_close_path(cr);
+      
+      cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 0.21 );
+      cairo_fill_preserve(cr);
+      cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 1 );
+      cairo_set_line_width(cr, 1.5);
+      cairo_set_line_join( cr, CAIRO_LINE_JOIN_ROUND);
+      cairo_set_line_cap ( cr, CAIRO_LINE_CAP_ROUND);
+      cairo_stroke( cr );
     }
         
     void drawHighpass(cairo_t* cr)
@@ -282,16 +278,16 @@ class Filtergraph : public Fl_Slider
                           x + w - (w*cutoff)    , y+(h * 0.0),   // control point 2
                           x + w - (w*cutoff) -10, y+ h      );   // end of curve 1
       
-      
-      if ( active )
-        cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 0.2 );
-      else
-        cairo_set_source_rgba( cr,  66 / 255.f,  66 / 255.f ,  66 / 255.f , 0.5 );
-      
       cairo_close_path(cr);
-      cairo_fill_preserve(cr);
       
-      avtk_stroke_line(cr, true);
+      // stroke
+      cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 0.21 );
+      cairo_fill_preserve(cr);
+      cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 1 );
+      cairo_set_line_width(cr, 1.5);
+      cairo_set_line_join( cr, CAIRO_LINE_JOIN_ROUND);
+      cairo_set_line_cap ( cr, CAIRO_LINE_CAP_ROUND);
+      cairo_stroke( cr );
     }
     void drawBandpass(cairo_t* cr)
     {
@@ -328,16 +324,16 @@ class Filtergraph : public Fl_Slider
       
       
       cairo_line_to( cr, x + w, y + h );
-      
-      if ( active )
-        cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 0.2 );
-      else
-        cairo_set_source_rgba( cr,  66 / 255.f,  66 / 255.f ,  66 / 255.f , 0.5 );
-      
       cairo_close_path(cr);
-      cairo_fill_preserve(cr);
       
-      avtk_stroke_line(cr, true);
+      // stroke
+      cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 0.21 );
+      cairo_fill_preserve(cr);
+      cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 1 );
+      cairo_set_line_width(cr, 1.5);
+      cairo_set_line_join( cr, CAIRO_LINE_JOIN_ROUND);
+      cairo_set_line_cap ( cr, CAIRO_LINE_CAP_ROUND);
+      cairo_stroke( cr );
     }
     
     
@@ -376,15 +372,14 @@ class Filtergraph : public Fl_Slider
       cairo_line_to( cr, x, y + h );
       cairo_close_path(cr);
       
-      if ( active )
-        cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 0.2 );
-      else
-        cairo_set_source_rgba( cr,  66 / 255.f,  66 / 255.f ,  66 / 255.f , 0.5 );
-      
-      
+      // stroke
+      cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 0.21 );
       cairo_fill_preserve(cr);
-      
-      avtk_stroke_line(cr, true);
+      cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 1 );
+      cairo_set_line_width(cr, 1.5);
+      cairo_set_line_join( cr, CAIRO_LINE_JOIN_ROUND);
+      cairo_set_line_cap ( cr, CAIRO_LINE_CAP_ROUND);
+      cairo_stroke( cr );
       
       cairo_reset_clip( cr );
     }
@@ -425,15 +420,14 @@ class Filtergraph : public Fl_Slider
       cairo_line_to( cr, x + w, y + h );
       cairo_close_path(cr);
       
-      if ( active )
-        cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 0.2 );
-      else
-        cairo_set_source_rgba( cr,  66 / 255.f,  66 / 255.f ,  66 / 255.f , 0.5 );
-      
-      
+      // stroke
+      cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 0.21 );
       cairo_fill_preserve(cr);
-      
-      avtk_stroke_line(cr, true);
+      cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 1 );
+      cairo_set_line_width(cr, 1.5);
+      cairo_set_line_join( cr, CAIRO_LINE_JOIN_ROUND);
+      cairo_set_line_cap ( cr, CAIRO_LINE_CAP_ROUND);
+      cairo_stroke( cr );
       
       cairo_reset_clip( cr );
     }

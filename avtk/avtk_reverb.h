@@ -20,18 +20,18 @@
  */
 
 
-#ifndef AVTK_OSCILLATOR_H
-#define AVTK_OSCILLATOR_H
+#ifndef AVTK_REVERB_H
+#define AVTK_REVERB_H
 
 #include <FL/Fl_Slider.H>
 
 namespace Avtk
 {
 
-class Oscillator : public Fl_Slider
+class Reverb : public Fl_Slider
 {
   public:
-    Oscillator(int _x, int _y, int _w, int _h, const char *_label =0):
+    Reverb(int _x, int _y, int _w, int _h, const char *_label =0):
         Fl_Slider(_x, _y, _w, _h, _label)
     {
       x = _x;
@@ -39,26 +39,25 @@ class Oscillator : public Fl_Slider
       w = _w;
       h = _h;
       
+      amp = 0.5;
+      s = 0.5;
+      
       label = _label;
       
       highlight = false;
       mouseOver = false;
     }
     
-    void volume  (float v){ wavetableVol =  v; redraw(); }
-    void position(float v){ wavetablePos =  v; redraw(); }
+    void size(float v) { s = v; redraw(); }
+    void wet(float v) { amp = v; redraw(); }
     
-    float wavetableVol;
-    float wavetablePos;
+    float s;
+    float amp;
     
     bool mouseOver;
     bool highlight;
     int x, y, w, h;
     const char* label;
-    
-    int mouseClickedX;
-    int mouseClickedY;
-    bool mouseClicked;
     
     void draw()
     {
@@ -68,17 +67,21 @@ class Oscillator : public Fl_Slider
         
         cairo_save( cr );
         
-        // WAVEFORM graph
+        // graph
         cairo_rectangle( cr, x, y, w, h );
-        cairo_set_source_rgb( cr, 28 / 255.f,  28 / 255.f ,  28 / 255.f );
-        cairo_fill( cr );
+        cairo_set_source_rgb( cr,28 / 255.f,  28 / 255.f ,  28 / 255.f  );
+        cairo_fill(cr);
         
-        // draw guides
-        double dashes[2];
+        
+        // set up dashed lines, 1 px off, 1 px on
+        double dashes[1];
         dashes[0] = 2.0;
-        dashes[1] = 2.0;
-        cairo_set_dash ( cr, dashes, 2, 0.0);
-        cairo_set_line_width( cr, 1.0);
+        
+        cairo_set_dash ( cr, dashes, 1, 0.0);
+        
+        // loop over each 2nd line, drawing dots
+        cairo_set_line_width(cr, 1.0);
+        cairo_set_source_rgb(cr, 0.4,0.4,0.4);
         for ( int i = 0; i < 4; i++ )
         {
           cairo_move_to( cr, x + ((w / 4.f)*i), y );
@@ -86,40 +89,39 @@ class Oscillator : public Fl_Slider
         }
         for ( int i = 0; i < 4; i++ )
         {
-          cairo_move_to( cr, x    , y + (( h / 4.f)*i) );
-          cairo_line_to( cr, x + w, y + (( h / 4.f)*i) );
+          cairo_move_to( cr, x    , y + ((h / 4.f)*i) );
+          cairo_line_to( cr, x + w, y + ((h / 4.f)*i) );
         }
         cairo_set_source_rgba( cr,  66 / 255.f,  66 / 255.f ,  66 / 255.f , 0.5 );
+        cairo_stroke(cr);
+        cairo_set_dash ( cr, dashes, 0, 0.0);
+        
+        // draw reverb triangle
+        cairo_move_to( cr, x , y + h*0.99 );
+        cairo_line_to( cr, x + w*0.1, y + h*0.6 - (h*0.6*amp));
+        cairo_line_to( cr, x + w*0.3+w*0.7*amp, y + (h*0.99));
+        
+        
+        // stroke
+        cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 0.21 );
+        cairo_fill_preserve(cr);
+        cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 1 );
+        cairo_set_line_width(cr, 1.5);
+        cairo_set_line_join( cr, CAIRO_LINE_JOIN_ROUND);
+        cairo_set_line_cap ( cr, CAIRO_LINE_CAP_ROUND);
         cairo_stroke( cr );
-        cairo_set_dash ( cr, dashes, 0, 0.0); // disable dashes: 0 dashes
-        
-        
-        // Waveform data: WavetableMod
-        cairo_rectangle( cr, x, y + h - 4, 138 * wavetablePos, 2);
-        cairo_set_source_rgb( cr, 25 / 255.f, 255 / 255.f ,   0 / 255.f  );
-        cairo_stroke(cr);
-        
-        // Waveform data: Volume
-        cairo_rectangle(cr, x+w-4, y + 82*(1-wavetableVol), 2,  (82*wavetableVol) ); 
-        cairo_set_source_rgb( cr, 1.0, 0.48 , 0.f );
-        cairo_stroke(cr);
-        
-        // graph center circle:
-        cairo_arc( cr, x + w/4.f + (w/2.f) * wavetablePos,
-                  y + h/4.f + (h/2.f) * (1-wavetableVol), 7, 0, 6.28 );
-        cairo_set_line_width(cr, 2.0 );
-        cairo_set_source_rgb( cr, 1.0, 0.48 , 0.f );
-        cairo_stroke(cr);
         
         // stroke rim
         cairo_rectangle(cr, x, y, w, h);
-        cairo_set_source_rgba( cr, 126 / 255.f, 126 / 255.f , 126 / 255.f , 0.8 );
+        //cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 1 );
+        cairo_set_source_rgba( cr,  126 / 255.f,  126 / 255.f ,  126 / 255.f , 0.8 );
+        cairo_set_line_width(cr, 1.9);
         cairo_stroke( cr );
         
         cairo_restore( cr );
         
         draw_label();
-      }// if DAMAGE
+      }
     }
     
     void resize(int X, int Y, int W, int H)
@@ -139,39 +141,11 @@ class Oscillator : public Fl_Slider
           highlight = 1;
           redraw();
           return 1;
-        case FL_DRAG:
-          {
-            if ( Fl::event_state(FL_BUTTON1) )
-            {
-              if ( mouseClicked == false ) // catch the "click" event
-              {
-                mouseClickedX = Fl::event_x();
-                mouseClickedY = Fl::event_y();
-                mouseClicked = true;
-              }
-              
-              float deltaX = mouseClickedX - Fl::event_x();
-              float deltaY = mouseClickedY - Fl::event_y();
-              
-              float valX = wavetablePos;
-              valX -= deltaX / 100.f;
-              float valY = wavetableVol;
-              valY += deltaY / 100.f;
-              
-              if ( valX > 1.0 ) valX = 1.0;
-              if ( valX < 0.0 ) valX = 0.0;
-              
-              if ( valY > 1.0 ) valY = 1.0;
-              if ( valY < 0.0 ) valY = 0.0;
-              
-              //handle_drag( value + deltaY );
-              position( valX );
-              volume(valY);
-              
-              mouseClickedX = Fl::event_x();
-              mouseClickedY = Fl::event_y();
+        case FL_DRAG: {
+            int t = Fl::event_inside(this);
+            if (t != highlight) {
+              highlight = t;
               redraw();
-              do_callback();
             }
           }
           return 1;
@@ -187,7 +161,6 @@ class Oscillator : public Fl_Slider
           if (highlight) {
             highlight = 0;
             redraw();
-            mouseClicked = false;
             do_callback();
           }
           return 1;
@@ -206,5 +179,5 @@ class Oscillator : public Fl_Slider
 
 } // Avtk
 
-#endif // AVTK_OSCILLATOR_H
+#endif // AVTK_ADSR_H
 

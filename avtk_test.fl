@@ -8,7 +8,7 @@ class AvtkTest {open
   } {
     Fl_Window {} {
       label {Avtk Showcase} open
-      xywh {501 150 790 600} type Double
+      xywh {505 183 790 600} type Double
       code0 {\#include "avtk.h"}
       code1 {using namespace Avtk;} visible
     } {
@@ -104,12 +104,13 @@ lopFilter->set_active(false);}
       Fl_Dial bigDial {
         label testing
         callback {lopFilter->value( o->value() );
+compressor->value( o->value() );
 smallDial->value( o->value() );
 hipFilter->value( 1.f - o->value() );
 lfo->value( o->value() );
 adsr->value( o->value() );
 lightbtn->value( o->value() + 0.5 );
-filgraph2->value( o->value() );}
+filgraph2->value( o->value() );} selected
         xywh {200 460 115 115} box UP_BOX labeltype NO_LABEL
         class Dial
       }
@@ -192,9 +193,14 @@ bigDial->value( f );}
       }
       Fl_Box oscil {
         label Oscil
-        callback {cout << "adsr" << endl;} selected
+        callback {cout << "adsr" << endl;}
         xywh {635 429 115 71} box UP_BOX labeltype NO_LABEL
         class Oscillator
+      }
+      Fl_Box compressor {
+        label Oscil
+        xywh {635 509 115 71} box UP_BOX labeltype NO_LABEL
+        class Compressor
       }
     }
     code {Fl::add_timeout(0.01, &OpenGL::static_update, opengl );

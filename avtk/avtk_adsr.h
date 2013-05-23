@@ -23,7 +23,7 @@
 #ifndef AVTK_ADSR_H
 #define AVTK_ADSR_H
 
-#include <FL/Fl_Button.H>
+#include <FL/Fl_Slider.H>
 
 namespace Avtk
 {
@@ -39,7 +39,8 @@ class ADSR : public Fl_Slider
       w = _w;
       h = _h;
       
-      a = d = s = r = 0.f;
+      a = 0.f;
+      d = s = r = 0.5f;
       
       label = _label;
       
@@ -125,7 +126,9 @@ class ADSR : public Fl_Slider
         
         // stroke rim
         cairo_rectangle(cr, x, y, w, h);
-        cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 1 );
+        //cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 1 );
+        cairo_set_source_rgba( cr,  126 / 255.f,  126 / 255.f ,  126 / 255.f , 0.8 );
+        cairo_set_line_width(cr, 1.9);
         cairo_stroke( cr );
         
         cairo_restore( cr );

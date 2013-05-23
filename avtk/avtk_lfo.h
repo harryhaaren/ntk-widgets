@@ -91,7 +91,7 @@ class LFO : public Fl_Slider
         
         
       
-      // ADSR graph plotting
+      // LFO graph plotting
         float wavetableMod = value();
         float lfoAmp = value();
         float volume = value();
@@ -158,18 +158,20 @@ class LFO : public Fl_Slider
         cairo_move_to(cr, x  , y+(h/2));
         cairo_line_to(cr, x+w, y+(h/2));
         cairo_set_source_rgba( cr,  66 / 255.f,  66 / 255.f ,  66 / 255.f , 0.7 );
+        cairo_set_line_width(cr, 1.5);
         cairo_stroke(cr);
         
         // redraw curve in blue
         cairo_move_to( cr, x1, y1 + yS / 2 );
         cairo_curve_to( cr, m1x, m1y, m2x, m2y, endX, endY);
         cairo_curve_to( cr, m3x, m3y, m4x, m4y, end2X, end2Y);
-        avtk_stroke_line(cr, true);
-        
-        // stroke rim
-        cairo_set_line_width(cr, 1.4);
-        cairo_rectangle(cr, x, y, w, h);
         cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 1 );
+        cairo_stroke( cr );
+        
+        // stroke outline
+        cairo_rectangle(cr, x, y, w, h);
+        cairo_set_source_rgba( cr,  126 / 255.f,  126 / 255.f ,  126 / 255.f , 0.8 );
+        cairo_set_line_width(cr, 1.9);
         cairo_stroke( cr );
         
         cairo_restore( cr );

@@ -161,7 +161,13 @@ class Compressor : public Fl_Slider
         float endx = xThresh + (xDist*1.2);
         float endy = yThresh - (yDist*1.2)*(1-ratioVal) - makeupGainPx;
         
-        // move to bottom left, draw line to middle left
+        // normal line (greyed)
+        cairo_move_to( cr, x , y + h );
+        cairo_line_to( cr, x + w, y );
+        cairo_set_source_rgba( cr,  66 / 255.f,  66 / 255.f ,  66 / 255.f , 0.5 );
+        cairo_set_line_width(cr, 1.4);
+        cairo_stroke( cr );
+        
         cairo_move_to( cr, x , y + h - makeupGainPx );
         cairo_line_to( cr, startx, starty - makeupGainPx );
         

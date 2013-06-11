@@ -49,6 +49,14 @@ class LFO : public Fl_Slider
     int x, y, w, h;
     const char* label;
     
+    void modulation(float m)
+    {
+      mod = m;
+      redraw();
+    }
+    
+    float mod;
+    
     void draw()
     {
       if (damage() & FL_DAMAGE_ALL)
@@ -92,7 +100,7 @@ class LFO : public Fl_Slider
         
       
       // LFO graph plotting
-        float wavetableMod = value();
+        float wavetableMod = mod;
         float lfoAmp = value();
         float volume = value();
         

@@ -48,6 +48,9 @@ class Oscillator : public Fl_Slider
     void volume  (float v){ wavetableVol =  v; redraw(); }
     void position(float v){ wavetablePos =  v; redraw(); }
     
+    float volume(){return wavetableVol;}
+    float position(){return wavetablePos;}
+    
     float wavetableVol;
     float wavetablePos;
     

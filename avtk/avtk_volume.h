@@ -184,7 +184,7 @@ class Volume : public Fl_Slider
               float deltaY = mouseClickedY - Fl::event_y();
               
               float valY = value();
-              valY += deltaY / 100.f;
+              valY += deltaY / h;
               
               if ( valY > 1.0 ) valY = 1.0;
               if ( valY < 0.0 ) valY = 0.0;

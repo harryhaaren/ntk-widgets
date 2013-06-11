@@ -94,12 +94,6 @@ class Filtergraph : public Fl_Slider
     float gain;
     float bandwidth;
     
-    void set_active(bool a)
-    {
-      active = a;
-      redraw();
-    }
-    
     void draw()
     {
       if (damage() & FL_DAMAGE_ALL)
@@ -160,6 +154,21 @@ class Filtergraph : public Fl_Slider
         cairo_set_line_width(cr, 1.9);
         cairo_stroke( cr );
         
+        if ( !active )
+        {
+          // big grey X
+          cairo_set_line_width(cr, 20.0);
+          cairo_set_source_rgba(cr, 0.4,0.4,0.4, 0.7);
+          
+          cairo_move_to( cr, x + (3 * w / 4.f), y + ( h / 4.f ) );
+          cairo_line_to( cr, x + (w / 4.f), y + ( 3 *h / 4.f ) );
+          
+          cairo_move_to( cr, x + (w / 4.f), y + ( h / 4.f ) );
+          cairo_line_to( cr, x + (3 * w / 4.f), y + ( 3 *h / 4.f ) );
+          cairo_set_line_cap ( cr, CAIRO_LINE_CAP_BUTT);
+          cairo_stroke( cr );
+        }
+        
         cairo_restore( cr );
       }
     }
@@ -180,6 +189,10 @@ class Filtergraph : public Fl_Slider
       {
         case FL_PUSH:
           highlight = 0;
+          if ( Fl::event_button() == FL_RIGHT_MOUSE )
+          {
+            active = !active;
+          }
           redraw();
           return 1;
         case FL_DRAG:

@@ -43,6 +43,8 @@ class Reverb : public Fl_Slider
       s   = 0.5;
       damp= 0.5;
       
+      active = true;
+      
       label = _label;
       
       highlight = false;
@@ -53,9 +55,13 @@ class Reverb : public Fl_Slider
     void wet(float v) { amp = v; redraw(); }
     void damping(float v){damp = v; redraw();}
     
+    bool getActive(){return active;}
+    
     float s;
     float amp;
     float damp;
+    
+    bool active;
     
     bool mouseOver;
     bool highlight;
@@ -127,6 +133,21 @@ class Reverb : public Fl_Slider
         cairo_set_line_width(cr, 1.9);
         cairo_stroke( cr );
         
+        if ( !active )
+        {
+          // big grey X
+          cairo_set_line_width(cr, 20.0);
+          cairo_set_source_rgba(cr, 0.4,0.4,0.4, 0.7);
+          
+          cairo_move_to( cr, x + (3 * w / 4.f), y + ( h / 4.f ) );
+          cairo_line_to( cr, x + (w / 4.f), y + ( 3 *h / 4.f ) );
+          
+          cairo_move_to( cr, x + (w / 4.f), y + ( h / 4.f ) );
+          cairo_line_to( cr, x + (3 * w / 4.f), y + ( 3 *h / 4.f ) );
+          cairo_set_line_cap ( cr, CAIRO_LINE_CAP_BUTT);
+          cairo_stroke( cr );
+        }
+        
         cairo_restore( cr );
         
         draw_label();
@@ -148,7 +169,12 @@ class Reverb : public Fl_Slider
       switch(event) {
         case FL_PUSH:
           highlight = 1;
-          redraw();
+          if ( Fl::event_button() == FL_RIGHT_MOUSE )
+          {
+            active = !active;
+            redraw();
+            do_callback();
+          }
           return 1;
         case FL_DRAG: {
             int t = Fl::event_inside(this);
@@ -170,7 +196,6 @@ class Reverb : public Fl_Slider
           if (highlight) {
             highlight = 0;
             redraw();
-            do_callback();
           }
           return 1;
         case FL_SHORTCUT:

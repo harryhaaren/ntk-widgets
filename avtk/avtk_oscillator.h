@@ -39,6 +39,8 @@ class Oscillator : public Fl_Slider
       w = _w;
       h = _h;
       
+      active = true;
+      
       label = _label;
       
       highlight = false;
@@ -54,6 +56,7 @@ class Oscillator : public Fl_Slider
     float wavetableVol;
     float wavetablePos;
     
+    bool active;
     bool mouseOver;
     bool highlight;
     int x, y, w, h;
@@ -120,6 +123,21 @@ class Oscillator : public Fl_Slider
         cairo_set_source_rgba( cr, 126 / 255.f, 126 / 255.f , 126 / 255.f , 0.8 );
         cairo_stroke( cr );
         
+        if ( !active )
+        {
+          // big grey X
+          cairo_set_line_width(cr, 20.0);
+          cairo_set_source_rgba(cr, 0.4,0.4,0.4, 0.7);
+          
+          cairo_move_to( cr, x + (3 * w / 4.f), y + ( h / 4.f ) );
+          cairo_line_to( cr, x + (w / 4.f), y + ( 3 *h / 4.f ) );
+          
+          cairo_move_to( cr, x + (w / 4.f), y + ( h / 4.f ) );
+          cairo_line_to( cr, x + (3 * w / 4.f), y + ( 3 *h / 4.f ) );
+          cairo_set_line_cap ( cr, CAIRO_LINE_CAP_BUTT);
+          cairo_stroke( cr );
+        }
+        
         cairo_restore( cr );
         
         draw_label();
@@ -141,7 +159,12 @@ class Oscillator : public Fl_Slider
       switch(event) {
         case FL_PUSH:
           highlight = 1;
-          redraw();
+          if ( Fl::event_button() == FL_RIGHT_MOUSE )
+          {
+            active = !active;
+            redraw();
+            do_callback();
+          }
           return 1;
         case FL_DRAG:
           {

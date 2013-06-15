@@ -43,7 +43,7 @@ class Reverb : public Fl_Slider
       s   = 0.5;
       damp= 0.5;
       
-      active = true;
+      active = false;
       
       label = _label;
       

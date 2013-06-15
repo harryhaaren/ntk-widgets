@@ -64,9 +64,9 @@ class Volume : public Fl_Slider
       active = true;
       highlight = false;
       
-      value(0.78);
       amp = 0;
       compress = 0;
+      value( 0.78f );
     }
     
     void amplitude  (float a) {amp      = a; redraw();}

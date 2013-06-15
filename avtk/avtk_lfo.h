@@ -108,30 +108,6 @@ class LFO : public Fl_Slider
         float volume = value();
         
         
-        
-        // Waveform data: WavetableMod
-        {
-          int drawX = x;
-          int drawY = y + h - 2;
-          
-          cairo_set_line_width(cr, 3.3);
-          cairo_rectangle( cr, x, y + h - 2, w * wavetableMod, 1);
-          cairo_set_source_rgba( cr, 25 / 255.f, 255 / 255.f ,   0 / 255.f , 0.7 );
-          cairo_stroke( cr );
-        }
-        // Waveform data: Volume
-        {
-          int drawX = x+w-3;
-          int drawY = y;
-          
-          float volume = 0.7;
-          cairo_set_line_width(cr, 2.4);
-          cairo_rectangle( cr, drawX, drawY+ h*(1-lfoAmp), 1,  (h*lfoAmp) ); 
-          cairo_set_source_rgba( cr, 255 / 255.f, 104 / 255.f ,   0 / 255.f , 1 );
-          cairo_stroke( cr );
-        }
-        
-        
         // sinewave (in graph 1)
         int x1 = x;
         int xS = w;
@@ -178,6 +154,28 @@ class LFO : public Fl_Slider
         cairo_curve_to( cr, m3x, m3y, m4x, m4y, end2X, end2Y);
         cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 1 );
         cairo_stroke( cr );
+        
+        // Waveform data: WavetableMod
+        {
+          int drawX = x;
+          int drawY = y + h - 2;
+          
+          cairo_set_line_width(cr, 3.3);
+          cairo_rectangle( cr, x, y + h - 2, w * wavetableMod, 1);
+          cairo_set_source_rgba( cr, 25 / 255.f, 255 / 255.f ,   0 / 255.f , 0.7 );
+          cairo_stroke( cr );
+        }
+        // Waveform data: Volume
+        {
+          int drawX = x+w-3;
+          int drawY = y;
+          
+          float volume = 0.7;
+          cairo_set_line_width(cr, 2.4);
+          cairo_rectangle( cr, drawX, drawY+ h*(1-lfoAmp), 1,  (h*lfoAmp) ); 
+          cairo_set_source_rgba( cr, 255 / 255.f, 104 / 255.f ,   0 / 255.f , 1 );
+          cairo_stroke( cr );
+        }
         
         // stroke outline
         cairo_rectangle(cr, x, y, w, h);

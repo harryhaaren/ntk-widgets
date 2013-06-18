@@ -25,6 +25,7 @@
 #include "avtk/avtk_helpers.h"
 
 #include "avtk/avtk_lfo.h"
+#include "avtk/avtk_pad.h"
 #include "avtk/avtk_adsr.h"
 #include "avtk/avtk_dial.h"
 #include "avtk/avtk_image.h"

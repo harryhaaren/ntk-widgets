@@ -47,11 +47,11 @@ class Oscillator : public Fl_Slider
       mouseOver = false;
     }
     
-    void volume  (float v){ wavetableVol =  v; redraw(); }
-    void position(float v){ wavetablePos =  v; redraw(); }
+    void Y (float v){ wavetableVol =  v; redraw(); }
+    void X (float v){ wavetablePos =  v; redraw(); }
     
-    float volume(){return wavetableVol;}
-    float position(){return wavetablePos;}
+    float Y(){return wavetableVol;}
+    float X(){return wavetablePos;}
     
     float wavetableVol;
     float wavetablePos;
@@ -192,8 +192,8 @@ class Oscillator : public Fl_Slider
               if ( valY < 0.0 ) valY = 0.0;
               
               //handle_drag( value + deltaY );
-              position( valX );
-              volume(valY);
+              X( valX );
+              Y(valY);
               
               mouseClickedX = Fl::event_x();
               mouseClickedY = Fl::event_y();

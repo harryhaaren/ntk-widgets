@@ -67,7 +67,7 @@ class Image : public Fl_Widget
     
     void draw()
     {
-      if (damage() & FL_DAMAGE_ALL)
+      if ( damage() & FL_DAMAGE_ALL && imageDataPtr != 0 )
       {
         fl_draw_image((const uchar*)imageDataPtr, x, y, w, h, bits, w*bits);
       }

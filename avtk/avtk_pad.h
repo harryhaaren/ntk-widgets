@@ -20,25 +20,25 @@
  */
 
 
-#ifndef AVTK_VOLUME_H
-#define AVTK_VOLUME_H
+#ifndef AVTK_PAD_H
+#define AVTK_PAD_H
 
 
 #include "avtk_helpers.h"
 
 #include <FL/Fl_Widget.H>
-#include <FL/Fl_Slider.H>
+#include <FL/Fl_Box.H>
 #include <valarray>
 #include <string>
 
 namespace Avtk
 {
   
-class Volume : public Fl_Slider
+class Pad : public Fl_Box
 {
   public:
-    Volume(int _x, int _y, int _w, int _h, const char *_label = 0):
-        Fl_Slider(_x, _y, _w, _h, _label)
+    Pad(int _x, int _y, int _w, int _h, const char *_label = 0):
+        Fl_Box(_x, _y, _w, _h, _label)
     {
       x = _x;
       y = _y;
@@ -50,35 +50,29 @@ class Volume : public Fl_Slider
       mouseClickedX = 0;
       mouseClickedY = 0;
       mouseClicked = false;
+      mouseRightClicked = false;
       
-      active = true;
-      highlight = false;
-      
-      amp = 0;
-      compress = 0;
-      value( 0.78f );
+      s = false;
+      p = false;
     }
     
-    void amplitude  (float a) {amp      = a; redraw();}
-    void compression(float c) {compress = c; redraw();}
     
-    bool active;
-    bool highlight;
+    
+    void selected(bool sb){s = sb; redraw();}
+    void play    (bool pb){p = pb; redraw();}
+    void ID(int i){id = i;}
+    int  ID(){return id;}
+    
+    bool s; // selected
+    bool p; // playing
     int x, y, w, h;
     const char* label;
     
+    int id;
     int mouseClickedX;
     int mouseClickedY;
     bool mouseClicked;
-    
-    float amp;
-    float compress;
-    
-    void set_active(bool a)
-    {
-      active = a;
-      redraw();
-    }
+    bool mouseRightClicked;
     
     void draw()
     {
@@ -88,57 +82,40 @@ class Volume : public Fl_Slider
         
         cairo_save( cr );
         
-        cairo_set_line_width(cr, 1.5);
-        
+        cairo_set_line_width(cr, 1.0);
         
         // fill background
         cairo_rectangle( cr, x, y, w, h);
         cairo_set_source_rgb( cr, 28 / 255.f,  28 / 255.f ,  28 / 255.f  );
+        if ( p ) // playing
+          cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 0.21 );
+        
         cairo_fill( cr );
         
+        // outline
+        cairo_rectangle( cr, x+2, y+2, w-4, h-4);
         
-        // set up dashed lines, 1 px off, 1 px on
-        double dashes[1];
-        dashes[0] = 2.0;
-        
-        cairo_set_dash ( cr, dashes, 1, 0.0);
-        cairo_set_line_width( cr, 1.0);
-        
-        // loop over each 2nd line, drawing dots
-        cairo_set_line_width(cr, 1.0);
-        cairo_set_source_rgb(cr, 0.4,0.4,0.4);
-        for ( int i = 0; i < 2; i++ )
+        if ( p ) // selected?
         {
-          cairo_move_to( cr, x + ((w / 2.f)*i), y );
-          cairo_line_to( cr, x + ((w / 2.f)*i), y + h );
+          cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 0.8 );
+          cairo_set_line_width(cr, 3.0);
         }
-        for ( int i = 0; i < 4; i++ )
+        else if ( s ) // selected?
         {
-          cairo_move_to( cr, x    , y + ((h / 4.f)*i) );
-          cairo_line_to( cr, x + w, y + ((h / 4.f)*i) );
+          cairo_set_source_rgba( cr,  255 / 255.f,  104 / 255.f ,    0 / 255.f , 0.8 );
+          cairo_set_line_width(cr, 3.0);
         }
-        
-        cairo_set_source_rgba( cr,  66 / 255.f,  66 / 255.f ,  66 / 255.f , 0.5 );
-        cairo_stroke(cr);
-        cairo_set_dash ( cr, dashes, 0, 0.0);
-        
-        
-        // audio level, compress, fader pos
-        //  amp, compress value()
-        
-        cairo_rectangle(cr, x+5, y+2+(h-24)*(1-value()), w-10, 20);
-        cairo_set_source_rgba( cr,  1.0f, 0.48, 0.f, 1);
-        cairo_set_line_width(cr, 1.9);
-        cairo_stroke( cr );
-        
-        
-        // stroke outline
-        cairo_rectangle(cr, x, y, w, h);
-        cairo_set_source_rgba( cr,  126 / 255.f,  126 / 255.f ,  126 / 255.f , 0.8 );
-        cairo_set_line_width(cr, 1.9);
+        else
+        {
+          //cairo_set_source_rgba( cr,  126 / 255.f,  126 / 255.f ,  126 / 255.f , 0.8 );
+          cairo_set_source_rgba( cr,  0 / 255.f,  0 / 255.f ,  0 / 255.f , 0.8 );
+          cairo_set_line_width(cr, 2.0);
+        }
         cairo_stroke( cr );
         
         cairo_restore( cr );
+        
+        draw_label();
       }
     }
     
@@ -157,11 +134,17 @@ class Volume : public Fl_Slider
       switch(event)
       {
         case FL_PUSH:
-          highlight = 0;
+          p = true;
+          if ( Fl::event_state(FL_BUTTON1) )
+            mouseClicked = true;
+          if ( Fl::event_state(FL_BUTTON3) )
+            mouseRightClicked = true;
           redraw();
+          do_callback();
           return 1;
         case FL_DRAG:
           {
+            /*
             if ( Fl::event_state(FL_BUTTON1) )
             {
               if ( mouseClicked == false ) // catch the "click" event
@@ -187,15 +170,15 @@ class Volume : public Fl_Slider
               redraw();
               do_callback();
             }
+            */
           }
           return 1;
         case FL_RELEASE:
-          if (highlight) {
-            highlight = 0;
-            redraw();
-            do_callback();
-          }
+          p = false;
+          redraw();
           mouseClicked = false;
+          mouseRightClicked = false;
+          //do_callback();
           return 1;
         case FL_SHORTCUT:
           if ( test_shortcut() )
@@ -214,4 +197,4 @@ class Volume : public Fl_Slider
 
 } // Avtk
 
-#endif // AVTK_VOLUME_H
+#endif // AVTK_PAD_H

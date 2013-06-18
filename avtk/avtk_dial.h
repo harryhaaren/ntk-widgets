@@ -58,6 +58,8 @@ class Dial : public Fl_Slider
     bool highlight;
     int x, y, w, h;
     const char* label;
+    bool drawLab;
+    void drawLabel(bool b){drawLab = b; redraw();}
     
     float radius;
     float lineWidth;
@@ -106,6 +108,10 @@ class Dial : public Fl_Slider
         
         cairo_restore( cr );
         
+        if ( drawLab )
+        {
+          //draw_label();
+        }
         
       }
     }

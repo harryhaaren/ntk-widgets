@@ -81,6 +81,12 @@ class Filtergraph : public Fl_Slider
       redraw();
     }
     
+    void setActive(bool a)
+    {
+      active = a;
+      redraw();
+    }
+    
     Type graphType;
     bool active;
     bool highlight;

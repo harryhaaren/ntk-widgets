@@ -209,7 +209,7 @@ class Waveform : public Fl_Widget
         // stroke rim
         cairo_set_line_width(cr, 0.9);
         cairo_rectangle(cr, x, y, w, h);
-        cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 1 );
+        cairo_set_source_rgba( cr,  126 / 255.f,  126 / 255.f ,  126 / 255.f , 0.8 );
         cairo_stroke( cr );
         
         //cout << "waveform draw() done" << endl;

@@ -87,9 +87,12 @@ class Pad : public Fl_Box
         // fill background
         cairo_rectangle( cr, x, y, w, h);
         cairo_set_source_rgb( cr, 28 / 255.f,  28 / 255.f ,  28 / 255.f  );
-        if ( p ) // playing
-          cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 0.21 );
         
+        if ( p ) // playing
+        {
+          cairo_fill_preserve( cr );
+          cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 0.21 );
+        }
         cairo_fill( cr );
         
         // outline

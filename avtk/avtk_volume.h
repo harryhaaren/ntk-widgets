@@ -54,12 +54,13 @@ class Volume : public Fl_Slider
       active = true;
       highlight = false;
       
-      amp = 0;
+      ampL = 0;
+      ampR = 0;
       compress = 0;
       value( 0.78f );
     }
     
-    void amplitude  (float a) {amp      = a; redraw();}
+    void amplitude  (float aL, float aR) {ampL = aL; ampR = aR; redraw();}
     void compression(float c) {compress = c; redraw();}
     
     bool active;
@@ -71,7 +72,7 @@ class Volume : public Fl_Slider
     int mouseClickedY;
     bool mouseClicked;
     
-    float amp;
+    float ampL, ampR;
     float compress;
     
     void set_active(bool a)
@@ -123,9 +124,27 @@ class Volume : public Fl_Slider
         cairo_set_dash ( cr, dashes, 0, 0.0);
         
         
-        // audio level, compress, fader pos
-        //  amp, compress value()
+        // audio level
         
+        //cairo_move_to(cr, x+w*0.3, y+h); // left
+        //cairo_line_to(cr, x+w*0.3, y+h*(1-ampL) );
+        
+        //cairo_move_to(cr, x+w*0.7, y+h); // right
+        //cairo_line_to(cr, x+w*0.7, y+h*(1-ampL) );
+        
+        
+        cairo_rectangle(cr, x+w*0.17, y+h*(1-ampL), 12.9, h - h*(1-ampL) );
+        cairo_rectangle(cr, x+w*0.56, y+h*(1-ampL), 12.9, h - h*(1-ampL) );
+        
+        cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 0.21 );
+        cairo_fill_preserve( cr );
+        cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 1 );
+        cairo_stroke(cr);
+        
+        // compression
+        //cairo_rectangle(cr, x+w*0.45, y+h - h*(1-ampL), 8.9, h*(1-ampL));
+        
+        // fader
         cairo_rectangle(cr, x+5, y+2+(h-24)*(1-value()), w-10, 20);
         cairo_set_source_rgba( cr,  1.0f, 0.48, 0.f, 1);
         cairo_set_line_width(cr, 1.9);

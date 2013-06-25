@@ -139,6 +139,7 @@ class Pad : public Fl_Box
             mouseClicked = true;
           if ( Fl::event_state(FL_BUTTON3) )
             mouseRightClicked = true;
+          damage(FL_DAMAGE_ALL);
           redraw();
           do_callback();
           return 1;

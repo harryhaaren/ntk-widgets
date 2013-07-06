@@ -37,16 +37,6 @@ namespace Avtk
 class Compressor : public Fl_Slider
 {
   public:
-    enum Type {
-      FILTER_LOWPASS = 0,
-      FILTER_HIGHPASS,
-      FILTER_BANDPASS,
-      FILTER_LOWSHELF,
-      FILTER_HIGHSHELF,
-      //FILTER_NOTCH,
-      //FILTER_PEAK,
-    };
-    
     Compressor(int _x, int _y, int _w, int _h, const char *_label = 0):
         Fl_Slider(_x, _y, _w, _h, _label)
     {
@@ -73,6 +63,8 @@ class Compressor : public Fl_Slider
     void makeup   (float m) {makeupGain = m; redraw();}
     void ratio    (float r) {ratioVal   = r; redraw();}
     
+    float getMakeup(){return makeupGain;}
+    
     bool active;
     bool highlight;
     int x, y, w, h;
@@ -81,6 +73,7 @@ class Compressor : public Fl_Slider
     int mouseClickedX;
     int mouseClickedY;
     bool mouseClicked;
+    bool mouseRightClicked;
     
     float threshVal;
     float makeupGain;
@@ -106,7 +99,8 @@ class Compressor : public Fl_Slider
         // fill background
         cairo_rectangle( cr, x, y, w, h);
         cairo_set_source_rgb( cr, 28 / 255.f,  28 / 255.f ,  28 / 255.f  );
-        cairo_fill( cr );
+        cairo_fill_preserve( cr );
+        cairo_clip( cr );
         
         
         // set up dashed lines, 1 px off, 1 px on
@@ -180,17 +174,9 @@ class Compressor : public Fl_Slider
         cairo_line_to( cr, x , y + h );
         cairo_close_path(cr);
         
-        
-        /*
-        // Curve
-        cairo_curve_to( cr, x + w * cutoff    , y+(h*0.5)  ,   // control point 1
-                            x + w * cutoff    , y+(h * 0.0),   // control point 2
-                            x + w * cutoff +10, y+ h       );  // end of curve 1
-        
-        cairo_close_path(cr);
-        */
         cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 0.21 );
         cairo_fill_preserve(cr);
+        
         cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 1 );
         cairo_set_line_width(cr, 1.5);
         cairo_set_line_join( cr, CAIRO_LINE_JOIN_ROUND);
@@ -238,10 +224,12 @@ class Compressor : public Fl_Slider
       {
         case FL_PUSH:
           highlight = 0;
+          mouseRightClicked = false;
           if ( Fl::event_button() == FL_RIGHT_MOUSE )
           {
             active = !active;
             redraw();
+            mouseRightClicked = true;
             do_callback();
           }
           return 1;
@@ -282,6 +270,7 @@ class Compressor : public Fl_Slider
           }
           return 1;
         case FL_RELEASE:
+          mouseRightClicked = false;
           if (highlight) {
             highlight = 0;
             redraw();

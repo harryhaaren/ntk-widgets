@@ -26,6 +26,7 @@
 #include <FL/Fl_Widget.H>
 #include <vector>
 #include <string>
+#include <sstream>
 #include <cairomm/context.h>
 #include <iostream>
 #include <stdlib.h>
@@ -55,19 +56,10 @@ class Waveform : public Fl_Widget
       waveformCr = 0;
       waveformSurf = 0;
       
-      
-      data = new std::vector<float>();
-      
-      srand (time(NULL));
-      
-      for (int i = 0; i < 700; i++)
-      {
-        data->push_back( rand() / (float(RAND_MAX)*3) );
-      }
-      
+      realLength = 0;
+      data = 0;
       
       newWaveform = true;
-      
     }
     
     bool highlight;
@@ -79,12 +71,25 @@ class Waveform : public Fl_Widget
     
     bool newWaveform;
     
-    std::vector<float>* data;
+    string waveformName;
+    int    data_size;
+    long   realLength;
+    float* data;
     
-    void setDataPtr( std::vector<float>* d )
+    void setData( int numDataPoints, long realLen, float* d, std::string name )
     {
-      //cout << "AvtkWaveform: setDataPtr = " << data << endl;
+      // title of the sample
+      waveformName = name;
+      
+      // the number of samples in the original file
+      realLength = realLen;
+      
+      // number of pixel points, and the data*
+      data_size = numDataPoints;
       data = d;
+      
+      newWaveform = true;
+      redraw();
     }
     
     void draw()
@@ -118,6 +123,11 @@ class Waveform : public Fl_Widget
             //cout << "waveform draw() creating objects done" << endl;
           }
           
+          // clear the surface
+          cairo_rectangle(waveformCr, 0, 0, w, h);
+          cairo_set_source_rgb (waveformCr, 0.1,0.1,0.1);
+          cairo_fill( waveformCr );
+          
           // set up dashed lines, 1 px off, 1 px on
           double dashes[1];
           dashes[0] = 2.0;
@@ -144,21 +154,21 @@ class Waveform : public Fl_Widget
           cairo_set_dash ( waveformCr, dashes, 0, 0.0);
           
           
-          if ( not data )
+          if ( !data )
           {
             // draw X
-            cairo_move_to( cr,  x    , y     );
-            cairo_line_to( cr,  x + w, y + h );
-            cairo_move_to( cr,  x    , y + h );
-            cairo_line_to( cr,  x + w, y     );
-            cairo_set_source_rgb ( cr, 0.2,0.2,0.2);
-            cairo_stroke(cr);
+            cairo_move_to( waveformCr,  0, 0 );
+            cairo_line_to( waveformCr,  w, h );
+            cairo_move_to( waveformCr,  0, h );
+            cairo_line_to( waveformCr,  w, 0 );
+            cairo_set_source_rgba( waveformCr,  66 / 255.f,  66 / 255.f ,  66 / 255.f , 0.5 );
+            cairo_stroke(waveformCr);
             
             // draw text
-            cairo_move_to( cr,  x + (w/2.f) - 65, y + (h/2.f) + 10 );
-            cairo_set_source_rgb ( cr, 0.6,0.6,0.6);
-            cairo_set_font_size( cr, 20 );
-            cairo_show_text( cr, "No data loaded" );
+            cairo_move_to( waveformCr,  (w/2.f) - 65, (h/2.f) + 10 );
+            cairo_set_source_rgb ( waveformCr, 0.6,0.6,0.6);
+            cairo_set_font_size( waveformCr, 20 );
+            cairo_show_text( waveformCr, "Load A Sample" );
           }
           else
           {
@@ -170,7 +180,7 @@ class Waveform : public Fl_Widget
             float currentSample = 0.f;
             
             // find how many samples per pixel
-            int samplesPerPix = data->size() / w;
+            int samplesPerPix = data_size / w;
             //cout << "width = " << w << "  sampsPerPx " << samplesPerPix << endl;
             
             // loop over each pixel value we need
@@ -181,7 +191,7 @@ class Waveform : public Fl_Widget
               // calc value for this pixel
               for( int i = 0; i < samplesPerPix; i++ )
               {
-                float tmp = data->at(i + (p * samplesPerPix) );
+                float tmp = data[i + (p * samplesPerPix)];
                 if ( tmp < 0 )
                 {
                   tmp = -tmp;
@@ -190,16 +200,35 @@ class Waveform : public Fl_Widget
               }
               average =(average / samplesPerPix);
               
-              cairo_move_to( waveformCr, p, (h/2) - (average * h )  );
-              cairo_line_to( waveformCr, p, (h/2) + (average * h )  );
+              cairo_move_to( waveformCr, p, (h/2) - (average * (h/2.2f) )  );
+              cairo_line_to( waveformCr, p, (h/2) + (average * (h/2.2f) )  );
             }
             
             // stroke the waveform
-            cairo_set_source_rgb( waveformCr, 1.0,1.0,1.0);
+            cairo_set_source_rgb( waveformCr, 0.8,0.8,0.8);
             cairo_stroke( waveformCr );
             
-            newWaveform = false;
+            /*
+            // draw text
+            cairo_move_to( waveformCr,  8, h-10 );
+            cairo_set_source_rgb ( waveformCr, 0.6,0.6,0.6);
+            cairo_set_font_size( waveformCr, 10 );
+            std::stringstream s;
+            s << "Length: " << realLength;
+            cairo_show_text( waveformCr, s.str().c_str() );
+            */
+            
+            // draw sample name
+            cairo_move_to( waveformCr,  8, h-10 );
+            cairo_set_source_rgb ( waveformCr, 0.6,0.6,0.6);
+            cairo_set_font_size( waveformCr, 10 );
+            std::stringstream s;
+            s << "Sample: " << waveformName;
+            cairo_show_text( waveformCr, s.str().c_str() );
+            
           }
+          
+          newWaveform = false;
         }
         
         cairo_set_source_surface(cr, waveformSurf, x, y);

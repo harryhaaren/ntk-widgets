@@ -107,21 +107,6 @@ class Image : public Fl_Widget
     }
 };
 
-/*
-static cairo_status_t readPngData( void *userData,
-                                   unsigned char *data,
-                                   unsigned int length)
-{
-  //Image* i = (Image*)userData;
-  //cout << "readPngData, imageDataPtr = " << i->imageDataPtr << endl;
-  //memcpy( data, i->imageDataPtr, length );
-  
-  memcpy( data, userData, length );
-  
-  return CAIRO_STATUS_SUCCESS;
-}
-*/
-
 } // Avtk
 
 #endif

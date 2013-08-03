@@ -151,9 +151,9 @@ bigDial->value( f );}
       }
       Fl_Box opengl {
         label openGL
-        callback {cout << "OpenGL" << endl;}
+        callback {cout << "OpenGL" << endl;} selected
         xywh {361 257 263 137} box UP_BOX
-        class OpenGL
+        class SidechainGain
       }
       Fl_Box {} {
         label ADSR
@@ -203,7 +203,7 @@ bigDial->value( f );}
         class Compressor
       }
       Fl_Box {} {
-        label label selected
+        label label
         xywh {645 351 75 64}
         class Pad
       }

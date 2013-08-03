@@ -39,5 +39,6 @@
 #include "avtk/avtk_background.h"
 #include "avtk/avtk_filtergraph.h"
 #include "avtk/avtk_light_button.h"
+#include "avtk/avtk_sidechain_gain.h"
 
 #endif // AVTK_H

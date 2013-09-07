@@ -43,7 +43,7 @@ class Reverb : public Fl_Slider
       s   = 0.5;
       damp= 0.5;
       
-      active = false;
+      active = true;
       
       label = _label;
       
@@ -128,10 +128,10 @@ class Reverb : public Fl_Slider
         cairo_stroke( cr );
         
         // stroke rim
-        cairo_rectangle(cr, x, y, w, h);
+        cairo_rectangle(cr, x+1, y+1, w-2, h-2);
         //cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 1 );
         cairo_set_source_rgba( cr,  126 / 255.f,  126 / 255.f ,  126 / 255.f , 0.8 );
-        cairo_set_line_width(cr, 1.9);
+        cairo_set_line_width(cr, 1.0);
         cairo_stroke( cr );
         
         if ( !active )
@@ -169,13 +169,16 @@ class Reverb : public Fl_Slider
     {
       switch(event) {
         case FL_PUSH:
+          
           highlight = 1;
+          /*
           if ( Fl::event_button() == FL_RIGHT_MOUSE )
           {
             active = !active;
             redraw();
             do_callback();
           }
+          */
           return 1;
         case FL_DRAG: {
             int t = Fl::event_inside(this);

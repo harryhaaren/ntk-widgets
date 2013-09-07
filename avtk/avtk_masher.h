@@ -41,7 +41,7 @@ class Masher : public Fl_Slider
       
       _duration = 0.5;
       _volume   = 1.0;
-      _replace  = 0.5;
+      _replace  = 1.0;
       
       active = true;
       
@@ -126,7 +126,7 @@ class Masher : public Fl_Slider
         else
           angle = 1;
         
-        // duration: main arc
+        // replace: middle arc
         cairo_set_line_cap ( cr, CAIRO_LINE_CAP_ROUND );
         cairo_arc( cr, x + xc, y + yc, xc * 6.5 / 14, -(3.1415/2), _replace * 6.28 - (3.1415/2) );
         cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.8 );
@@ -144,6 +144,8 @@ class Masher : public Fl_Slider
         else
           cairo_set_source_rgba (cr, 1.0, 0.0, 1.0, 0.7 );
         
+        
+        // duration : outside arc
         cairo_arc( cr, x + xc, y + yc, xc * 9.5 / 14, -(3.1415/2), angle * 6.28 - (3.1415/2) );
         cairo_set_line_width(cr, 11);
         cairo_stroke(cr);
@@ -158,20 +160,11 @@ class Masher : public Fl_Slider
         cairo_set_line_width(cr, 2);
         cairo_stroke(cr);
         
-        
-        // replace : colour around Volume
-        /*
-        cairo_arc( cr, x + xc, y + yc, xc * 9. / 14, -(3.1415/2), _replace * 6.28 - (3.1415/2) );
-        cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 1.0 );
-        cairo_set_line_width(cr, 2);
-        cairo_stroke(cr);
-        */
-        
         // stroke rim
         cairo_rectangle(cr, x, y, w, h);
         //cairo_set_source_rgba( cr, 0 / 255.f, 153 / 255.f , 255 / 255.f , 1 );
         cairo_set_source_rgba( cr,  126 / 255.f,  126 / 255.f ,  126 / 255.f , 0.8 );
-        cairo_set_line_width(cr, 1.9);
+        cairo_set_line_width(cr, 1.0);
         cairo_stroke( cr );
         
         if ( !active )
@@ -211,14 +204,13 @@ class Masher : public Fl_Slider
         case FL_PUSH:
           
           highlight = 1;
-          /*
+          
           if ( Fl::event_button() == FL_RIGHT_MOUSE )
           {
             active = !active;
             redraw();
             do_callback();
           }
-          */
           return 1;
         case FL_DRAG: {
             int t = Fl::event_inside(this);

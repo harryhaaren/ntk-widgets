@@ -40,7 +40,7 @@
 #include "avtk/avtk_background.h"
 #include "avtk/avtk_filtergraph.h"
 #include "avtk/avtk_light_button.h"
-#include "avtk/avtk_clip_selector.h"
+//#include "avtk/avtk_clip_selector.h"
 #include "avtk/avtk_radial_status.h"
 #include "avtk/avtk_sidechain_gain.h"
 
